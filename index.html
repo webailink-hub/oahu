@@ -27,7 +27,8 @@
             font-family: 'Playfair Display', serif;
         }
         .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1542259646-c264426dc6a0?q=80&w=2070&auto=format&fit=crop');
+            /* Updated to a stunning North Shore sunset/beach vibe */
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1612716368817-2954848d56b0?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -50,9 +51,30 @@
 <body class="flex flex-col min-h-screen">
 
     <!-- Hero Section -->
-    <header class="hero-bg h-[60vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
+    <header class="hero-bg h-[75vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
         <div class="max-w-3xl bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">North Shore Getaway</h1>
+            
+            <!-- Countdown Timer -->
+            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-8 w-full max-w-md mx-auto">
+                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
+                    <div id="days" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Days</div>
+                </div>
+                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
+                    <div id="hours" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Hours</div>
+                </div>
+                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
+                    <div id="minutes" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Mins</div>
+                </div>
+                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
+                    <div id="seconds" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Secs</div>
+                </div>
+            </div>
+
             <div class="space-y-4">
                 <p class="text-xl md:text-2xl font-light italic leading-relaxed">
                     "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing. I'm so excited for us."
@@ -102,8 +124,14 @@
 
                 <!-- Day 1 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(0)">
+                    <div class="h-48 overflow-hidden relative">
+                         <!-- Haleiwa Town / Rainbow Bridge vibe -->
+                        <img src="https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" alt="Haleiwa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Arrival & Haleiwa</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 1: Arrival & Settling In</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 1: Settling In</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Logistics</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -138,8 +166,14 @@
 
                 <!-- Day 2 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(1)">
+                    <div class="h-48 overflow-hidden relative">
+                        <!-- Underwater / Ocean for Shark Tour -->
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" alt="Ocean Adventure" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">North Shore Exploration</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 2: North Shore Exploration</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 2: Sharks & Shave Ice</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Adventure</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -171,8 +205,14 @@
 
                 <!-- Day 3 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(2)">
+                    <div class="h-48 overflow-hidden relative">
+                        <!-- Lush Rainforest / Waterfall vibe -->
+                        <img src="https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" alt="Manoa Falls" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Town Day & Culture</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 3: Town Day & Culture</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 3: History & Hikes</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Culture</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -205,8 +245,14 @@
 
                 <!-- Day 4 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(3)">
+                    <div class="h-48 overflow-hidden relative">
+                        <!-- Kualoa / Chinaman's Hat -->
+                        <img src="https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" alt="Windward Coast" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Windward Coast</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 4: Windward Coast</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 4: Sandbar & Scenic Drive</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Scenic</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -231,8 +277,14 @@
 
                 <!-- Day 5 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(4)">
+                    <div class="h-48 overflow-hidden relative">
+                         <!-- Pipeline / Surf -->
+                        <img src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" alt="Pipeline Surf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Shrimp & Dolphins</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 5: Shrimp & Dolphins</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 5: North Shore Mix</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Nature</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -264,8 +316,14 @@
 
                 <!-- Day 6 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(5)">
+                    <div class="h-48 overflow-hidden relative">
+                        <!-- Waikiki / Diamond Head -->
+                        <img src="https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" alt="Waikiki" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Waikiki Day Trip</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 6: Waikiki Day Trip</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 6: City Vibes</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Urban</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -290,8 +348,14 @@
 
                 <!-- Day 7 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(6)">
+                    <div class="h-48 overflow-hidden relative">
+                         <!-- Shark's Cove / North Shore Rocky -->
+                        <img src="https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" alt="North Shore Coast" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Relaxed Departure</div>
+                    </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 7: Relaxed Departure</h3>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 7: Farewell</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Farewell</span>
                     </div>
                     <div class="p-6 space-y-6">
@@ -339,6 +403,34 @@
     <script>
         // Initialize Icons
         lucide.createIcons();
+
+        // Countdown Timer
+        // Setting target date to January 21, 2026 at 7:00 AM
+        const targetDate = new Date('January 21, 2026 07:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                // If the date has passed, you might want to show "Enjoy your trip!" or similar
+                // For now, we'll leave it at 00
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         // Data for Map (Updated for 7 Days)
         const locations = [
