@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,9 +30,12 @@
                     },
                     colors: {
                         'ocean': '#0e4c5e',
+                        'ocean-light': '#1a6b85',
                         'sand': '#faf9f6',
+                        'sand-dark': '#efebe0',
                         'gold': '#c5a059',
                         'sage': '#8fa382',
+                        'sage-light': '#e8efe6',
                         'coral': '#e07a5f',
                         'charcoal': '#2d3436',
                     }
@@ -42,201 +45,289 @@
     </script>
 
     <style>
+        /* Typography & Layout Tweaks */
+        body { font-weight: 300; }
+        h1, h2, h3, h4, h5 { font-weight: 500; }
+        
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #faf9f6; }
+        ::-webkit-scrollbar-thumb { background: #8fa382; border-radius: 4px; }
+        
+        /* Utilities */
+        .hero-text-shadow { text-shadow: 0px 4px 12px rgba(0,0,0,0.3); }
+        
+        /* Timeline Elements */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e2e8f0;
         }
-        ::-webkit-scrollbar-track {
-            background: #faf9f6; 
+        .timeline-dot {
+            position: absolute;
+            left: -29px;
+            top: 4px;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #8fa382;
+            box-shadow: 0 0 0 4px #faf9f6;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #8fa382; 
-            border-radius: 4px;
+        
+        /* Cards */
+        .location-card {
+            background-color: #fcfcfc;
+            border: 1px solid #f0f0f0;
+            border-left: 3px solid #c5a059;
+            border-radius: 0 8px 8px 0;
+            padding: 16px;
+            margin-top: 12px;
+            transition: all 0.2s ease;
         }
-        .hero-text-shadow {
-            text-shadow: 0px 4px 12px rgba(0,0,0,0.4);
+        .location-card:hover {
+            background-color: #fffcf5;
+            border-color: #f0f0f0;
+            border-left-color: #e07a5f;
+            transform: translateX(4px);
         }
-        .note-tip {
-            border-left: 3px solid #e07a5f;
-            background: #fffcf5;
+
+        .food-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
         }
+
+        /* Map Button */
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #c5a059;
+            font-weight: 700;
+            margin-top: 8px;
+            transition: color 0.2s;
+        }
+        .map-link:hover { color: #e07a5f; }
     </style>
 </head>
-<body class="bg-sand text-charcoal font-sans antialiased overflow-x-hidden">
+<body class="bg-sand text-charcoal font-sans antialiased overflow-x-hidden selection:bg-sage selection:text-white">
 
     <!-- HERO SECTION -->
     <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <!-- Optimized Image Loading -->
         <div class="absolute inset-0">
-            <img src="https://i.imgur.com/Uqkdi83.jpeg" alt="North Shore Sunset" class="w-full h-full object-cover">
+            <img src="https://image.pollinations.ai/prompt/romantic%20couple%20looking%20at%20sunset%20over%20haleiwa%20beach%20hawaii%20golden%20hour%20cinematic?width=1280&height=720&nologo=true" alt="North Shore Sunset" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-sand"></div>
         </div>
 
         <div class="relative z-10 text-center px-4" data-aos="fade-up" data-aos-duration="1500">
-            <div class="inline-block border border-white/50 px-4 py-1 rounded-full backdrop-blur-sm mb-6">
-                <p class="text-white tracking-[0.2em] uppercase text-xs font-bold">Jan 21 - Jan 27, 2026</p>
+            <div class="inline-block border border-white/60 px-6 py-2 rounded-full backdrop-blur-md mb-8">
+                <p class="text-white tracking-[0.2em] uppercase text-xs font-bold">Jan 21 — Jan 27, 2026</p>
             </div>
-            <h1 class="font-serif text-6xl md:text-8xl text-white italic mb-2 hero-text-shadow">For You, Maryana</h1>
-            <p class="font-serif text-2xl md:text-3xl text-white/90 hero-text-shadow mb-8 font-light">Our Lost in Oahu Adventure</p>
-            <div class="flex justify-center gap-4">
-                <a href="#personal-note" class="bg-white text-ocean px-8 py-3 rounded-full hover:bg-ocean hover:text-white transition-all duration-300 font-medium tracking-wide shadow-lg border border-white">See Our Plans</a>
+            <h1 class="font-serif text-5xl md:text-7xl text-white italic mb-4 hero-text-shadow leading-tight">For You, Maryana</h1>
+            <p class="font-serif text-xl md:text-3xl text-white/90 hero-text-shadow mb-10 font-light tracking-wide">Our Lost in Oahu Adventure</p>
+            <div class="flex justify-center">
+                <a href="#personal-note" class="bg-white/95 text-ocean px-10 py-4 rounded-full hover:bg-ocean hover:text-white transition-all duration-300 font-medium tracking-widest shadow-xl text-sm uppercase">See Our Plans</a>
             </div>
         </div>
         
-        <div class="absolute bottom-10 animate-bounce text-white w-full text-center">
+        <div class="absolute bottom-10 animate-bounce text-white w-full text-center opacity-70">
             <i data-lucide="chevron-down" class="mx-auto h-8 w-8"></i>
         </div>
     </header>
 
     <!-- PERSONAL INTRO -->
-    <section id="personal-note" class="py-20 px-6 max-w-4xl mx-auto text-center">
+    <section id="personal-note" class="py-24 px-6 max-w-4xl mx-auto text-center">
         <div data-aos="fade-up">
-            <i data-lucide="heart" class="h-8 w-8 text-coral mx-auto mb-4 fill-current"></i>
+            <div class="w-16 h-1 bg-gradient-to-r from-transparent via-coral to-transparent mx-auto mb-8"></div>
             <h2 class="font-serif text-4xl text-ocean mb-8">I can't wait to go here with you.</h2>
-            <div class="font-serif text-xl leading-relaxed text-gray-600 mb-8 italic">
-                "I've spent a lot of time putting this together because I want this trip to be perfect for us. We're staying on the North Shore (thanks to Uncle!) to dodge the crowds, and I've made sure every single spot we visit has amazing vegan food for you. It’s going to be a mix of adventure, relaxation, and just being together."
+            <div class="font-serif text-2xl leading-relaxed text-charcoal/80 mb-10 italic max-w-2xl mx-auto">
+                "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing. I'm so excited for us."
             </div>
-            <p class="text-sm text-gray-500 uppercase tracking-widest font-bold mb-12">- Love, Andrew</p>
+            <p class="text-xs text-gold uppercase tracking-[0.2em] font-bold mb-16">- Love, Andrew</p>
             
-            <!-- Snapshot Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
-                <div class="p-2">
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Departure</div>
-                    <div class="font-serif text-lg text-ocean">Jan 21</div>
-                    <div class="text-xs text-sage">Flight HA 0801</div>
+            <!-- Logistics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-left bg-white p-8 rounded-2xl shadow-sm border border-stone-100">
+                <div class="space-y-1">
+                    <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Departure</div>
+                    <div class="font-serif text-xl text-ocean">Jan 21</div>
+                    <div class="text-xs text-sage font-medium">Flight HA 0801</div>
                 </div>
-                <div class="p-2 border-l border-gray-100">
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Budget</div>
-                    <div class="font-serif text-lg text-ocean">~$2.4k</div>
-                    <div class="text-xs text-sage">Total Trip</div>
+                <div class="space-y-1 border-l border-gray-100 pl-6">
+                    <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Budget</div>
+                    <div class="font-serif text-xl text-ocean">~$2.4k</div>
+                    <div class="text-xs text-sage font-medium">All Planned</div>
                 </div>
-                <div class="p-2 border-l border-gray-100">
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Base</div>
-                    <div class="font-serif text-lg text-ocean">Waialua</div>
-                    <div class="text-xs text-sage">Uncle's Place</div>
+                <div class="space-y-1 border-l border-gray-100 pl-6">
+                    <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Home Base</div>
+                    <div class="font-serif text-xl text-ocean">Waialua</div>
+                    <div class="text-xs text-sage font-medium">Uncle's Place</div>
                 </div>
-                <div class="p-2 border-l border-gray-100">
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Food</div>
-                    <div class="font-serif text-lg text-ocean">100% Inclusive</div>
-                    <div class="text-xs text-sage">Vegan Prioritized</div>
+                <div class="space-y-1 border-l border-gray-100 pl-6">
+                    <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Menu</div>
+                    <div class="font-serif text-xl text-ocean">Vegan</div>
+                    <div class="text-xs text-sage font-medium">100% Inclusive</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ITINERARY CONTAINER -->
-    <main class="relative max-w-5xl mx-auto px-4 pb-24">
+    <main class="relative max-w-5xl mx-auto px-4 pb-32">
         
         <!-- DAY 1 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
             
-            <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
                 <!-- Date Badge -->
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">21</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Wed</span>
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">21</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Wednesday</span>
                 </div>
 
                 <!-- Content Card -->
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/Haleiwa%20Joes%20garden%20restaurant%20sunset%20view?width=800&height=400&nologo=true" alt="Haleiwa Joe's" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">And So It Begins...</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/Haleiwa%20Joes%20garden%20restaurant%20sunset%20view?width=800&height=400&nologo=true" alt="Haleiwa Joe's" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">And So It Begins...</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                        <!-- Route Snapshot -->
-                        <div class="bg-stone-50 rounded-lg p-4 mb-6 border border-stone-200">
-                            <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Day 1 Route</h5>
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="plane" class="h-5 w-5 text-ocean mb-1"></i>
-                                    <span class="font-semibold">HNL</span>
-                                </div>
-                                <div class="flex-grow mx-4 relative h-1 bg-gray-300 rounded">
-                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 bg-stone-50 px-1 border border-gray-200 rounded">Stop in Wahiawa</div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="home" class="h-5 w-5 text-coral mb-1"></i>
-                                    <span class="font-semibold">Waialua</span>
-                                </div>
+                    <div class="p-8 md:p-10">
+                        <!-- Route Visual -->
+                        <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-10 pb-6 border-b border-stone-100">
+                            <span class="text-ocean"><i data-lucide="plane" class="inline w-4 h-4 mr-1"></i> HNL</span>
+                            <div class="flex-grow h-px bg-stone-200 relative">
+                                <div class="absolute left-1/2 -top-2 -translate-x-1/2 bg-white px-2 text-[10px] text-gray-400">Drive North</div>
                             </div>
+                            <span class="text-coral"><i data-lucide="home" class="inline w-4 h-4 mr-1"></i> Waialua</span>
                         </div>
 
-                        <div class="space-y-8 pl-4">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">07:00 AM - Departure</h4>
-                                <p class="text-sm text-gray-600 mt-1"><strong>Flight HA 0801</strong> to Honolulu. Confirmation: <strong>GDZSZJN</strong>.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">07:00 AM — Departure</h4>
+                                <p class="text-gray-600 mb-2">Flight HA 0801 to Honolulu (Confirmation: GDZSZJN). Get ready for island time.</p>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">12:00 PM - Touchdown & Jeep Pickup</h4>
-                                <p class="text-sm text-gray-600 mt-1">Pick up our 4x4 Jeep rental (essential for North Shore roads). Time to drive North!</p>
-                                <div class="mt-2 p-3 bg-blue-50 rounded text-xs text-blue-800 flex items-start gap-2">
-                                    <i data-lucide="info" class="h-4 w-4 flex-shrink-0"></i>
-                                    Keep an eye on the ocean while we drive—whales often spout near shore in Jan!
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">12:00 PM — Touchdown & Jeep</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Daniel K. Inouye Intl Airport</strong>
+                                            <span class="text-sm text-gray-500">300 Rodgers Blvd, Honolulu, HI 96819</span>
+                                        </div>
+                                        <i data-lucide="map-pin" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=300+Rodgers+Blvd,+Honolulu,+HI+96819" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="mt-4 flex gap-3 text-sm text-ocean bg-ocean/5 p-4 rounded-lg">
+                                    <i data-lucide="eye" class="w-5 h-5 flex-shrink-0"></i>
+                                    Keep an eye on the ocean while we drive—whales often spout near shore!
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">1:30 PM - Zippy’s Wahiawa</h4>
-                                <p class="text-sm text-gray-500 italic mb-2">A convenient stop halfway up the island to refuel.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Zip Pac (Classic local plate)</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">1:30 PM — Zippy’s Wahiawa</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Zippy's Wahiawa</strong>
+                                            <span class="text-sm text-gray-500">100 N Kamehameha Hwy, Wahiawa, HI 96786</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Vegan Chili Plate</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=100+N+Kamehameha+Hwy,+Wahiawa,+HI+96786" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Zip Pac (Local Plate)</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Vegan Chili Plate</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">Afternoon - Settling In</h4>
-                                <ul class="text-sm text-gray-600 list-disc ml-4 space-y-1">
-                                    <li>Check in with Uncle in Waialua.</li>
-                                    <li><strong>Costco Run:</strong> Getting all your favorite vegan snacks and fruits.</li>
-                                </ul>
-                            </div>
-
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">5:30 PM - Pre-Dinner: Sunrise Shack</h4>
-                                <p class="text-sm text-gray-600 mb-2"><em>Found this place since Beet Box is closed.</em></p>
-                                <div class="border-l-2 border-green-500 pl-3">
-                                    <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                    <p class="text-sm">Acai Bowl or Smoothie (Nutrient dense)</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">Afternoon — Settling In</h4>
+                                <div class="space-y-4">
+                                    <div class="location-card">
+                                        <strong class="block text-gray-900 mb-1">Uncle's House</strong>
+                                        <span class="text-sm text-gray-500 block mb-2">66-111 Kamehameha Hwy area, Waialua, HI 96791</span>
+                                        <a href="https://www.google.com/maps/search/?api=1&query=Waialua,+HI+96791" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                    </div>
+                                    <div class="location-card">
+                                        <strong class="block text-gray-900 mb-1">Costco Waipio (Supplies)</strong>
+                                        <span class="text-sm text-gray-500 block mb-2">94-1231 Ka Uka Blvd, Waipahu, HI 96797</span>
+                                        <a href="https://www.google.com/maps/search/?api=1&query=94-1231+Ka+Uka+Blvd,+Waipahu,+HI+96797" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">6:30 PM - Dinner: Haleiwa Joe’s</h4>
-                                <p class="text-sm text-gray-600 mb-2">I'll get us there early for the sunset view over the garden.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Prime Rib</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">5:30 PM — Pre-Dinner Refresh</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">The Sunrise Shack</strong>
+                                            <span class="text-sm text-gray-500">59-158 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="coffee" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Grilled Artichoke (No aioli) & Mai Tai</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=59-158+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="mt-2 text-sm text-sage font-medium pl-2 border-l-2 border-sage">
+                                    Recommendation for Maryana: Acai Bowl or Smoothie
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">6:30 PM — Sunset Dinner</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Haleiwa Joe's</strong>
+                                            <span class="text-sm text-gray-500">66-011 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="sunset" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-011+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Prime Rib</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Grilled Artichoke (No aioli) & Mai Tai</span>
                                     </div>
                                 </div>
                             </div>
@@ -249,82 +340,110 @@
 
         <!-- DAY 2 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">22</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Thu</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">22</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Thursday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/shark%20cage%20diving%20oahu%20clear%20blue%20water?width=800&height=400&nologo=true" alt="Shark Tour" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">Thrills & Tranquility</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/shark%20cage%20diving%20oahu%20clear%20blue%20water?width=800&height=400&nologo=true" alt="Shark Tour" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">Thrills & Tranquility</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                         <!-- Route Snapshot -->
-                         <div class="bg-stone-50 rounded-lg p-4 mb-6 border border-stone-200">
-                            <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Day 2 Route</h5>
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="home" class="h-5 w-5 text-coral mb-1"></i>
-                                    <span class="font-semibold">Waialua</span>
-                                </div>
-                                <div class="flex-grow mx-4 relative h-1 bg-gray-300 rounded">
-                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 bg-stone-50 px-1 border border-gray-200 rounded">~10 min / 5 mi</div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="anchor" class="h-5 w-5 text-ocean mb-1"></i>
-                                    <span class="font-semibold">Harbor</span>
-                                </div>
+                    <div class="p-8 md:p-10">
+                        <!-- Route Visual -->
+                        <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-10 pb-6 border-b border-stone-100">
+                            <span class="text-coral"><i data-lucide="home" class="inline w-4 h-4 mr-1"></i> Waialua</span>
+                            <div class="flex-grow h-px bg-stone-200 relative">
+                                <div class="absolute left-1/2 -top-2 -translate-x-1/2 bg-white px-2 text-[10px] text-gray-400">Short Drive</div>
                             </div>
+                            <span class="text-ocean"><i data-lucide="anchor" class="inline w-4 h-4 mr-1"></i> Harbor</span>
                         </div>
 
-                        <div class="space-y-8 pl-4">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">7:30 AM - Shark Tour</h4>
-                                <p class="text-sm text-gray-600"><strong>North Shore Shark Adventures.</strong> We can go cage-free if we're brave!</p>
-                                <div class="mt-2 p-3 bg-amber-50 rounded text-xs text-amber-800 note-tip">
-                                    <strong>Tip:</strong> Let's take motion sickness meds at 6:30 AM just in case.
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">7:30 AM — Shark Tour</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">North Shore Shark Adventures</strong>
+                                            <span class="text-sm text-gray-500">66-105 Haleiwa Rd, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="anchor" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-105+Haleiwa+Rd,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2 italic">Pro tip: Take motion sickness meds at 6:30 AM.</p>
+                            </div>
+
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">11:30 AM — Tamura’s Market</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Tamura's Market Haleiwa</strong>
+                                            <span class="text-sm text-gray-500">66-190 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="shopping-bag" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-190+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Fresh Ahi Poke</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Tofu Poke (Customizable)</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">11:30 AM - Tamura’s Market</h4>
-                                <p class="text-sm text-gray-600 mb-2">Authentic poke stop.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Fresh Ahi Poke Bowl</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">1:00 PM — Sweet Treat</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Matsumoto Shave Ice</strong>
+                                            <span class="text-sm text-gray-500">66-111 Kamehameha Hwy #605, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="ice-cream" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Tofu Poke (Customizable)</p>
-                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-111+Kamehameha+Hwy+%23605,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">1:00 PM - Matsumoto Shave Ice</h4>
-                                <p class="text-sm text-gray-600">Maryana: Vegan syrups + mochi/beans.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">Evening — Sunset & Chill</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Ali'i Beach Park</strong>
+                                            <span class="text-sm text-gray-500">66-167 Haleiwa Rd, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="sunset" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-167+Haleiwa+Rd,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">Evening - Sunset at Ali'i Beach</h4>
-                                <p class="text-sm text-gray-600">Prime whale spotting. Dinner at home using our grocery haul (Vegan Wraps/Salads).</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -333,88 +452,121 @@
 
         <!-- DAY 3 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">23</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Fri</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">23</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Friday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/manoa%20falls%20trail%20jungle%20hawaii?width=800&height=400&nologo=true" alt="Manoa Falls" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">History, Hikes & Helena's</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/manoa%20falls%20trail%20jungle%20hawaii?width=800&height=400&nologo=true" alt="Manoa Falls" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">History, Hikes & Helena's</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                        <!-- Route Snapshot -->
-                        <div class="bg-stone-50 rounded-lg p-4 mb-6 border border-stone-200">
-                            <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Day 3 Route</h5>
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="home" class="h-5 w-5 text-coral mb-1"></i>
-                                    <span class="font-semibold">Waialua</span>
-                                </div>
-                                <div class="flex-grow mx-4 relative h-1 bg-gray-300 rounded">
-                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 bg-stone-50 px-1 border border-gray-200 rounded">~40min / 25mi</div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="building-2" class="h-5 w-5 text-ocean mb-1"></i>
-                                    <span class="font-semibold">Town</span>
-                                </div>
+                    <div class="p-8 md:p-10">
+                         <!-- Route Visual -->
+                         <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-10 pb-6 border-b border-stone-100">
+                            <span class="text-coral"><i data-lucide="home" class="inline w-4 h-4 mr-1"></i> Waialua</span>
+                            <div class="flex-grow h-px bg-stone-200 relative">
+                                <div class="absolute left-1/2 -top-2 -translate-x-1/2 bg-white px-2 text-[10px] text-gray-400">~40min Drive</div>
                             </div>
+                            <span class="text-ocean"><i data-lucide="building-2" class="inline w-4 h-4 mr-1"></i> Town</span>
                         </div>
 
-                        <div class="space-y-8 pl-4">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">10:00 AM - Culture</h4>
-                                <p class="text-sm text-gray-600"><strong>Bishop Museum</strong> (~$35) OR <strong>Iolani Palace</strong>. I figured we'd skip the weekend crowds.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">10:00 AM — Culture</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Bishop Museum</strong>
+                                            <span class="text-sm text-gray-500">1525 Bernice St, Honolulu, HI 96817</span>
+                                        </div>
+                                        <i data-lucide="landmark" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=1525+Bernice+St,+Honolulu,+HI+96817" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">12:30 PM - Helena’s Hawaiian Food</h4>
-                                <p class="text-sm text-gray-600 mb-2">It's a classic. <span class="bg-red-100 text-red-800 px-1 rounded text-xs font-bold">CASH ONLY</span></p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Menu D (Kalua pig, lomi salmon, ribs)</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">12:30 PM — Helena’s Hawaiian Food</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Helena's Hawaiian Food</strong>
+                                            <span class="text-sm text-gray-500">1240 N School St, Honolulu, HI 96817</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Poi & Rice. <em>Backup: Whole Foods (Queen St) nearby.</em></p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=1240+N+School+St,+Honolulu,+HI+96817" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="mt-2 text-xs font-bold text-coral bg-coral/10 inline-block px-2 py-1 rounded">CASH ONLY</div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Menu D (Kalua Pig, Ribs)</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Poi & Rice</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">2:30 PM - Manoa Falls Hike</h4>
-                                <p class="text-sm text-gray-600">1.6-mile lush rainforest hike. Wear shoes you don't mind getting muddy!</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">2:30 PM — Manoa Falls Hike</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Manoa Falls Trailhead</strong>
+                                            <span class="text-sm text-gray-500">3860 Manoa Rd, Honolulu, HI 96822</span>
+                                        </div>
+                                        <i data-lucide="mountain" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=3860+Manoa+Rd,+Honolulu,+HI+96822" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2 italic">Wear shoes you don't mind getting muddy!</p>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">6:30 PM - Side Street Inn</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Pork Chops & Kimchee Fried Rice</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">6:30 PM — Dinner</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Side Street Inn</strong>
+                                            <span class="text-sm text-gray-500">1225 Hopaka St, Honolulu, HI 96814</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Tofu Salad & Edamame</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=1225+Hopaka+St,+Honolulu,+HI+96814" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Pork Chops & Kimchee Rice</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Tofu Salad & Edamame</span>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -423,71 +575,93 @@
 
         <!-- DAY 4 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">24</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Sat</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">24</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Saturday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/kaneohe%20sandbar%20aerial%20boat%20turquoise%20water?width=800&height=400&nologo=true" alt="Sandbar" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">Sandbar Serenity</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/kaneohe%20sandbar%20aerial%20boat%20turquoise%20water?width=800&height=400&nologo=true" alt="Sandbar" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">Sandbar Serenity</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                         <!-- Route Snapshot -->
-                         <div class="bg-stone-50 rounded-lg p-4 mb-6 border border-stone-200">
-                            <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Day 4 Route</h5>
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="home" class="h-5 w-5 text-coral mb-1"></i>
-                                    <span class="font-semibold">Waialua</span>
-                                </div>
-                                <div class="flex-grow mx-4 relative h-1 bg-gray-300 rounded">
-                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 bg-stone-50 px-1 border border-gray-200 rounded">~40min / 25mi</div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="anchor" class="h-5 w-5 text-ocean mb-1"></i>
-                                    <span class="font-semibold">Kaneohe</span>
-                                </div>
+                    <div class="p-8 md:p-10">
+                         <!-- Route Visual -->
+                         <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-10 pb-6 border-b border-stone-100">
+                            <span class="text-coral"><i data-lucide="home" class="inline w-4 h-4 mr-1"></i> Waialua</span>
+                            <div class="flex-grow h-px bg-stone-200 relative">
+                                <div class="absolute left-1/2 -top-2 -translate-x-1/2 bg-white px-2 text-[10px] text-gray-400">Scenic H3 Drive</div>
                             </div>
+                            <span class="text-ocean"><i data-lucide="anchor" class="inline w-4 h-4 mr-1"></i> Kaneohe</span>
                         </div>
 
-                        <div class="space-y-8 pl-4">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">9:30 AM - Kaneohe Sandbar Charter</h4>
-                                <p class="text-sm text-gray-600"><strong>Captain Bruce Tours</strong>. Snorkel and wade in the middle of the ocean!</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">9:30 AM — Sandbar Charter</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">He'eia Kea Boat Harbor (Capt Bruce)</strong>
+                                            <span class="text-sm text-gray-500">46-499 Kamehameha Hwy, Kaneohe, HI 96744</span>
+                                        </div>
+                                        <i data-lucide="anchor" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=46-499+Kamehameha+Hwy,+Kaneohe,+HI+96744" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">1:30 PM - Lunch: Fresh Catch</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Firecracker Ahi or Smoked Tako</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">1:30 PM — Lunch: Fresh Catch</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Fresh Catch Kaneohe</strong>
+                                            <span class="text-sm text-gray-500">45-1118 Kamehameha Hwy, Kaneohe, HI 96744</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Seaweed Salad with Tofu</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=45-1118+Kamehameha+Hwy,+Kaneohe,+HI+96744" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Firecracker Ahi</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Seaweed Salad with Tofu</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">3:00 PM - Chinaman’s Hat</h4>
-                                <p class="text-sm text-gray-600">Photo stop at Kualoa Regional Park. We'll take H3 back—it's super scenic.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">3:00 PM — Chinaman’s Hat</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Kualoa Regional Park</strong>
+                                            <span class="text-sm text-gray-500">49-479 Kamehameha Hwy, Kaneohe, HI 96744</span>
+                                        </div>
+                                        <i data-lucide="camera" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=49-479+Kamehameha+Hwy,+Kaneohe,+HI+96744" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -496,54 +670,94 @@
 
         <!-- DAY 5 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">25</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Sun</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">25</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Sunday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/kahuku%20food%20trucks%20hawaii%20sunny?width=800&height=400&nologo=true" alt="Kahuku" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">Dolphins & The Sugar Mill</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/kahuku%20food%20trucks%20hawaii%20sunny?width=800&height=400&nologo=true" alt="Kahuku" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">Dolphins & Sugar Mill</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                        <div class="space-y-8 pl-4">
+                    <div class="p-8 md:p-10">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">7:00 AM - Dolphin Excursion</h4>
-                                <p class="text-sm text-gray-600"><strong>Ocean Outfitters</strong>. It's viewing-only, but the views are magic.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">7:00 AM — Dolphin Excursion</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Ocean Outfitters (Haleiwa Harbor)</strong>
+                                            <span class="text-sm text-gray-500">66-105 Haleiwa Rd, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="anchor" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-105+Haleiwa+Rd,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">12:00 PM - Kahuku Lunch</h4>
-                                <p class="text-sm text-gray-600 mb-2">We'll park at the Sugar Mill and split up to grab food.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Giovanni’s or Romy's Garlic Shrimp</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">12:00 PM — Kahuku Lunch</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Kahuku Sugar Mill</strong>
+                                            <span class="text-sm text-gray-500">56-565 Kamehameha Hwy, Kahuku, HI 96731</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm"><strong>Raised by the Waves:</strong> Vegan Waffle/Smoothie</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=56-565+Kamehameha+Hwy,+Kahuku,+HI+96731" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Giovanni’s or Romy's Shrimp</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Raised by the Waves (Vegan Waffle)</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">Afternoon - Pipeline & Picnic</h4>
-                                <p class="text-sm text-gray-600">We'll watch the massive surf at Pipeline, then grab Foodland Poke (Tofu for you) for a sunset picnic.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">Afternoon — Pipeline</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Ehukai Beach Park (Pipeline)</strong>
+                                            <span class="text-sm text-gray-500">59-337 Ke Nui Rd, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="waves" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=59-337+Ke+Nui+Rd,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Foodland Pupukea</strong>
+                                            <span class="text-sm text-gray-500">59-720 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="shopping-cart" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=59-720+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -552,80 +766,95 @@
 
         <!-- DAY 6 -->
         <div class="mb-24 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">26</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Mon</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">26</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Monday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/waikiki%20beach%20luxury%20hotels%20diamond%20head%20sunset?width=800&height=400&nologo=true" alt="Waikiki" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">City Lights & Cocktails</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/waikiki%20beach%20luxury%20hotels%20diamond%20head%20sunset?width=800&height=400&nologo=true" alt="Waikiki" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">City Lights & Cocktails</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                         <!-- Route Snapshot -->
-                         <div class="bg-stone-50 rounded-lg p-4 mb-6 border border-stone-200">
-                            <h5 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Day 6 Route</h5>
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="home" class="h-5 w-5 text-coral mb-1"></i>
-                                    <span class="font-semibold">Waialua</span>
-                                </div>
-                                <div class="flex-grow mx-4 relative h-1 bg-gray-300 rounded">
-                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[10px] text-gray-500 bg-stone-50 px-1 border border-gray-200 rounded">~45min / 30mi</div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <i data-lucide="building" class="h-5 w-5 text-ocean mb-1"></i>
-                                    <span class="font-semibold">Waikiki</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-8 pl-4">
+                    <div class="p-8 md:p-10">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">11:30 AM - Rainbow Drive-In</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Loco Moco or Mixed Plate</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">11:30 AM — Rainbow Drive-In</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Rainbow Drive-In</strong>
+                                            <span class="text-sm text-gray-500">3308 Kanaina Ave, Honolulu, HI 96815</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Plant-Based Chicken Karaage</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=3308+Kanaina+Ave,+Honolulu,+HI+96815" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Loco Moco</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Plant-Based Karaage</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">Afternoon - Bar Hop</h4>
-                                <p class="text-sm text-gray-600">Mai Tai Bar -> Duke’s Waikiki -> Sky Waikiki for sunset.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">Afternoon — Bar Hop</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Royal Hawaiian Center (Parking)</strong>
+                                            <span class="text-sm text-gray-500">2201 Kalakaua Ave, Honolulu, HI 96815</span>
+                                        </div>
+                                        <i data-lucide="glass-water" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=2201+Kalakaua+Ave,+Honolulu,+HI+96815" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2">Mai Tai Bar -> Duke’s Waikiki -> Sky Waikiki for sunset.</p>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">7:30 PM - Moani’s Waikiki</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                                    <div class="border-l-2 border-blue-400 pl-3">
-                                        <p class="text-xs font-bold text-blue-600 uppercase">Andrew</p>
-                                        <p class="text-sm">Short Ribs</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">7:30 PM — Dinner & Music</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Moani's Waikiki</strong>
+                                            <span class="text-sm text-gray-500">2330 Kalakaua Ave #312, Honolulu, HI 96815</span>
+                                        </div>
+                                        <i data-lucide="music" class="text-gold w-5 h-5 flex-shrink-0"></i>
                                     </div>
-                                    <div class="border-l-2 border-green-500 pl-3">
-                                        <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                        <p class="text-sm">Veggie Fried Rice</p>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=2330+Kalakaua+Ave+%23312,+Honolulu,+HI+96815" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="food-card">
+                                        <span class="text-xs font-bold text-ocean uppercase mb-1 block">Andrew</span>
+                                        <span class="text-sm text-gray-700">Short Ribs</span>
+                                    </div>
+                                    <div class="food-card border-sage">
+                                        <span class="text-xs font-bold text-sage uppercase mb-1 block">Maryana</span>
+                                        <span class="text-sm text-gray-700">Veggie Fried Rice</span>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -634,55 +863,85 @@
 
         <!-- DAY 7 -->
         <div class="mb-12 relative" data-aos="fade-up">
-            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-300 hidden md:block"></div>
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-2">
-                    <span class="text-5xl font-serif text-coral opacity-80">27</span>
-                    <span class="text-sm font-medium uppercase tracking-widest text-gray-500">Jan / Tue</span>
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-stone-200 hidden md:block"></div>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+                <div class="md:w-32 flex-shrink-0 flex flex-col items-center md:items-end pt-4">
+                    <span class="text-6xl font-serif text-coral/20 font-bold -mb-4">27</span>
+                    <span class="text-2xl font-serif text-ocean z-10">Jan</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gold mt-1">Tuesday</span>
                 </div>
 
-                <div class="flex-grow bg-white rounded-xl overflow-hidden shadow-lg border border-stone-100">
-                    <div class="h-48 overflow-hidden relative">
-                        <img loading="lazy" src="https://image.pollinations.ai/prompt/sharks%20cove%20tide%20pools%20oahu%20clear%20water?width=800&height=400&nologo=true" alt="Sharks Cove" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6">
-                            <h3 class="font-serif text-2xl text-white italic">One Last Dip</h3>
+                <div class="flex-grow bg-white rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-white">
+                    <div class="h-64 overflow-hidden relative">
+                        <img loading="lazy" src="https://image.pollinations.ai/prompt/sharks%20cove%20tide%20pools%20oahu%20clear%20water?width=800&height=400&nologo=true" alt="Sharks Cove" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                            <h3 class="font-serif text-3xl text-white italic">One Last Dip</h3>
                         </div>
                     </div>
                     
-                    <div class="p-8">
-                        <div class="space-y-8 pl-4">
+                    <div class="p-8 md:p-10">
+                        <div class="space-y-12 pl-6 relative">
+                            <div class="timeline-line"></div>
                             
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">9:00 AM - Shark’s Cove</h4>
-                                <p class="text-sm text-gray-600">We'll check the tide pools. If it's calm, we snorkel; if not, we watch the waves.</p>
-                            </div>
-
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">12:00 PM - Last Lunch: Haleiwa Bowls</h4>
-                                <p class="text-sm text-gray-600 mb-2"><em>Farm to Barn is closed, so we'll grab fresh bowls here before the flight.</em></p>
-                                <div class="border-l-2 border-green-500 pl-3">
-                                    <p class="text-xs font-bold text-green-600 uppercase">Maryana</p>
-                                    <p class="text-sm">Vegan Buddha or Acai Bowl</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">9:00 AM — Shark’s Cove</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Shark's Cove</strong>
+                                            <span class="text-sm text-gray-500">59-711 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="waves" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=59-711+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
                                 </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">14:00 PM - Drive to Airport</h4>
-                                <p class="text-sm text-gray-600">Heading back to HNL to return the Jeep and get through security comfortably.</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">12:00 PM — Last Lunch</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">Haleiwa Bowls</strong>
+                                            <span class="text-sm text-gray-500">66-082 Kamehameha Hwy, Haleiwa, HI 96712</span>
+                                        </div>
+                                        <i data-lucide="utensils" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=66-082+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
+                                <div class="mt-4 flex gap-3 text-sm text-sage bg-sage/5 p-4 rounded-lg border-l-2 border-sage">
+                                    <i data-lucide="leaf" class="w-5 h-5 flex-shrink-0"></i>
+                                    <strong>For Maryana:</strong> Vegan Buddha or Acai Bowl
+                                </div>
                             </div>
 
-                            <!-- Item -->
-                            <div class="relative pl-6 border-l-2 border-stone-200">
-                                <span class="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-white border-2 border-sage"></span>
-                                <h4 class="font-serif text-lg text-ocean">16:44 PM - Fly Home</h4>
-                                <p class="text-sm text-gray-600"><strong>Flight HA 802</strong> to LAX. Mahalo for the memories!</p>
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">14:00 PM — To Airport</h4>
+                                <div class="location-card">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <strong class="block text-gray-900 mb-1">HNL Airport</strong>
+                                            <span class="text-sm text-gray-500">300 Rodgers Blvd, Honolulu, HI 96819</span>
+                                        </div>
+                                        <i data-lucide="plane" class="text-gold w-5 h-5 flex-shrink-0"></i>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=300+Rodgers+Blvd,+Honolulu,+HI+96819" target="_blank" class="map-link">View Map <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+                                </div>
                             </div>
+
+                            <!-- Timeline Item -->
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-serif text-xl text-ocean mb-2">16:44 PM — Fly Home</h4>
+                                <p class="text-gray-600">Flight HA 802 to LAX. Mahalo for the memories!</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -691,49 +950,49 @@
 
     </main>
     
-    <!-- TIPS & CHECKLIST -->
-    <section class="bg-ocean text-white py-16">
+    <!-- TIPS & NOTES -->
+    <section class="bg-ocean text-white py-24">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="font-serif text-3xl mb-12 text-center">My Notes for Us</h2>
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-                    <h3 class="font-bold text-gold mb-3 flex items-center gap-2"><i data-lucide="cloud-rain" class="h-5 w-5"></i> Weather Wisdom</h3>
+            <h2 class="font-serif text-4xl mb-16 text-center">My Notes for Us</h2>
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition">
+                    <h3 class="font-bold text-gold mb-4 flex items-center gap-2"><i data-lucide="cloud-rain" class="h-5 w-5"></i> Weather Wisdom</h3>
                     <p class="text-sm text-gray-200 leading-relaxed">Jan rain = rainbows. Let's pack light rain jackets. Whale watching is free from the beach!</p>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-                    <h3 class="font-bold text-gold mb-3 flex items-center gap-2"><i data-lucide="car" class="h-5 w-5"></i> Driving</h3>
+                <div class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition">
+                    <h3 class="font-bold text-gold mb-4 flex items-center gap-2"><i data-lucide="car" class="h-5 w-5"></i> Driving</h3>
                     <p class="text-sm text-gray-200 leading-relaxed">No honking, just aloha. We need to gas up early because stations are rare on the North Shore.</p>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-                    <h3 class="font-bold text-gold mb-3 flex items-center gap-2"><i data-lucide="leaf" class="h-5 w-5"></i> Vegan Spots</h3>
+                <div class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition">
+                    <h3 class="font-bold text-gold mb-4 flex items-center gap-2"><i data-lucide="leaf" class="h-5 w-5"></i> Vegan Spots</h3>
                     <p class="text-sm text-gray-200 leading-relaxed">I've got the <strong>HappyCow</strong> app ready. I'll make sure we check for hidden ingredients.</p>
                 </div>
-                <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-                    <h3 class="font-bold text-gold mb-3 flex items-center gap-2"><i data-lucide="shield-check" class="h-5 w-5"></i> Safety</h3>
+                <div class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition">
+                    <h3 class="font-bold text-gold mb-4 flex items-center gap-2"><i data-lucide="shield-check" class="h-5 w-5"></i> Safety</h3>
                     <p class="text-sm text-gray-200 leading-relaxed">Muddy trails means we need good shoes. And we'll stay back from the big waves (10ft+)!</p>
                 </div>
             </div>
 
-            <div class="border-t border-white/20 pt-12">
-                <h3 class="font-serif text-2xl mb-6 text-center">Things I Need to Book</h3>
-                <div class="flex flex-wrap justify-center gap-4 text-sm">
-                    <span class="bg-emerald-900/50 px-4 py-2 rounded-full border border-emerald-500/30">Shark Tour</span>
-                    <span class="bg-emerald-900/50 px-4 py-2 rounded-full border border-emerald-500/30">Captain Bruce (Sandbar)</span>
-                    <span class="bg-emerald-900/50 px-4 py-2 rounded-full border border-emerald-500/30">Ocean Outfitters</span>
-                    <span class="bg-emerald-900/50 px-4 py-2 rounded-full border border-emerald-500/30">Haleiwa Joe's</span>
-                    <span class="bg-emerald-900/50 px-4 py-2 rounded-full border border-emerald-500/30">Side Street Inn</span>
+            <div class="border-t border-white/10 pt-16 text-center">
+                <h3 class="font-serif text-2xl mb-8">Things I Need to Book</h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="bg-white/10 px-6 py-2 rounded-full border border-white/20 text-sm hover:bg-white/20 cursor-default transition">Shark Tour</span>
+                    <span class="bg-white/10 px-6 py-2 rounded-full border border-white/20 text-sm hover:bg-white/20 cursor-default transition">Captain Bruce (Sandbar)</span>
+                    <span class="bg-white/10 px-6 py-2 rounded-full border border-white/20 text-sm hover:bg-white/20 cursor-default transition">Ocean Outfitters</span>
+                    <span class="bg-white/10 px-6 py-2 rounded-full border border-white/20 text-sm hover:bg-white/20 cursor-default transition">Haleiwa Joe's</span>
+                    <span class="bg-white/10 px-6 py-2 rounded-full border border-white/20 text-sm hover:bg-white/20 cursor-default transition">Side Street Inn</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-sand text-charcoal py-16 text-center border-t border-stone-200">
+    <footer class="bg-sand text-charcoal py-20 text-center border-t border-stone-200">
         <div class="max-w-2xl mx-auto px-6">
-            <i data-lucide="heart" class="h-8 w-8 text-coral mx-auto mb-6 fill-current"></i>
-            <h2 class="font-serif text-3xl mb-4 text-ocean">Love you, Maryana</h2>
-            <p class="text-gray-500 italic mb-8">"I hope this trip is everything you deserve."</p>
-            <div class="text-xs text-gray-400 uppercase tracking-widest">Jan 2026</div>
+            <i data-lucide="heart" class="h-8 w-8 text-coral mx-auto mb-8 fill-current animate-pulse"></i>
+            <h2 class="font-serif text-4xl mb-4 text-ocean">Love you, Maryana</h2>
+            <p class="text-gray-500 italic mb-10 text-lg">"I hope this trip is everything you deserve."</p>
+            <div class="text-[10px] text-gray-400 uppercase tracking-[0.3em] font-bold">Est. Jan 2026</div>
         </div>
     </footer>
 
@@ -750,5 +1009,4 @@
         lucide.createIcons();
     </script>
 </body>
-
 </html>
