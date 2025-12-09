@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Hawaiian Getaway</title>
+    <title>Oahu Itinerary: North Shore Base</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,13 +51,16 @@
 
     <!-- Hero Section -->
     <header class="hero-bg h-[60vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
-        <div class="max-w-2xl bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
+        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">North Shore Getaway</h1>
             <div class="space-y-4">
                 <p class="text-xl md:text-2xl font-light italic leading-relaxed">
                     "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing. I'm so excited for us."
                 </p>
                 <p class="text-lg font-bold mt-4 uppercase tracking-widest">— Love, Andrew</p>
+            </div>
+            <div class="mt-6 pt-6 border-t border-white/30 text-sm font-light opacity-90">
+                Optimized 7-Day Itinerary • Late Jan 2026 • Vegan Accommodations
             </div>
         </div>
         <div class="absolute bottom-6 animate-bounce">
@@ -71,47 +74,63 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
             
             <!-- Left Column: Itinerary -->
-            <div class="space-y-8 overflow-y-auto max-h-[100vh] scrollbar-hide pr-2">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
-                    <h2 class="text-2xl serif font-bold text-stone-800 mb-2 flex items-center gap-2">
-                        <i data-lucide="home" class="text-teal-600"></i> The Home Base
+            <div class="space-y-8 overflow-y-auto max-h-[120vh] scrollbar-hide pr-2">
+                
+                <!-- Agent's Overview Card -->
+                <div class="bg-stone-50 p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h2 class="text-2xl serif font-bold text-stone-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="briefcase" class="text-teal-700"></i> Trip Snapshot
                     </h2>
-                    <p class="text-stone-600 mb-2">Staying at Uncle's House in Waialua to dodge the crowds.</p>
+                    <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                        <div>
+                            <span class="font-bold text-stone-600">Base:</span> Uncle's House, Waialua
+                        </div>
+                        <div>
+                            <span class="font-bold text-stone-600">Vehicle:</span> 4x4 Jeep (Need to Book)
+                        </div>
+                        <div>
+                            <span class="font-bold text-stone-600">Budget:</span> ~$2,450 (Est.)
+                        </div>
+                        <div>
+                            <span class="font-bold text-stone-600">Season:</span> Whale Peak (Rainy)
+                        </div>
+                    </div>
+                    <div class="text-xs text-stone-500 italic border-t border-stone-200 pt-3">
+                        *Tip: Always validate parking at malls. Drive carefully in rain. Check surf reports daily.
+                    </div>
                 </div>
 
                 <!-- Day 1 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(0)">
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 1: Arrival & Historic Town</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Relaxed</span>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 1: Arrival & Settling In</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Logistics</span>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Activity -->
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="map-pin" class="text-orange-500 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="plane" class="text-blue-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Old Haleiwa Town</h4>
-                                <p class="text-stone-600 text-sm mb-2">Browsing surf shops, art galleries, and the Rainbow Bridge.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-165 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=66-165+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">12:00 PM: HNL Pickup & Lunch</h4>
+                                <p class="text-stone-600 text-sm">Pick up Jeep Wrangler. Stop at <strong>Zippy's Wahiawa</strong>. Vegan chili/burger available.</p>
+                                <div class="text-xs text-stone-400 mt-1">100 N Kamehameha Hwy, Wahiawa</div>
                             </div>
                         </div>
-                        <!-- Food -->
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="shopping-cart" class="text-orange-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">Afternoon: Supplies</h4>
+                                <p class="text-stone-600 text-sm">Check in at Uncle's. Grocery run at <strong>Costco Waipio</strong> for vegan snacks/beer.</p>
+                            </div>
+                        </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
                             <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Dinner: Raised by the Waves</h4>
-                                <p class="text-stone-600 text-sm mb-2">100% plant-based cafe in the plantation shops.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-165 Kamehameha Hwy, Haleiwa, HI 96712
+                                <h4 class="font-bold text-stone-800">Dinner: Haleiwa Joe's</h4>
+                                <p class="text-stone-600 text-sm">Sunset views. Maryana: Grilled artichoke (no aioli) + Mai Tai. Pre-dinner snack at Beet Box Cafe.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mb-2 mt-2">
+                                    66-011 Kamehameha Hwy, Haleiwa, HI
                                 </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Raised+by+the+Waves+Haleiwa" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Joes+Haleiwa" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
                     </div>
@@ -120,36 +139,31 @@
                 <!-- Day 2 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(1)">
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 2: Waterfalls & Botanicals</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Active</span>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 2: North Shore Exploration</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Adventure</span>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Activity -->
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="mountain" class="text-orange-500 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="anchor" class="text-blue-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Waimea Valley</h4>
-                                <p class="text-stone-600 text-sm mb-2">Botanical garden walk leading to a 45ft waterfall swim.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    59-864 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=59-864+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">7:30 AM: Shark Tour</h4>
+                                <p class="text-stone-600 text-sm">Haleiwa Small Boat Harbor. Cage-free snorkel. Watch for whales!</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">66-105 Haleiwa Rd, Haleiwa</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Small+Boat+Harbor" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
-                        <!-- Food -->
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="coffee" class="text-amber-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Lunch: Farm to Barn Cafe</h4>
-                                <p class="text-stone-600 text-sm mb-2">Fresh juices and vegan burgers in an open-air red barn.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-249 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Farm+to+Barn+Cafe" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">Lunch & Dessert</h4>
+                                <p class="text-stone-600 text-sm"><strong>Tamura's Market</strong> for Tofu Poke. Then <strong>Matsumoto Shave Ice</strong> (add mochi/beans, skip milk).</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 border-t border-stone-100 pt-4">
+                            <div class="mt-1"><i data-lucide="sunset" class="text-orange-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">5:00 PM: Ali'i Beach Park</h4>
+                                <p class="text-stone-600 text-sm">Relaxing sunset viewing. Dinner at home (casual pizza/snacks).</p>
                             </div>
                         </div>
                     </div>
@@ -158,36 +172,32 @@
                 <!-- Day 3 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(2)">
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 3: Turtles & Snorkeling</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Nature</span>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 3: Town Day & Culture</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Culture</span>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Activity -->
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="waves" class="text-blue-500 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="landmark" class="text-stone-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Laniakea Beach (Turtle Beach)</h4>
-                                <p class="text-stone-600 text-sm mb-2">Watching Green Sea Turtles basking on the shore.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    61-574 Pohaku Loa Way, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=61-574+Pohaku+Loa+Way,+Haleiwa,+HI+96712" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">9:00 AM: Bishop Museum</h4>
+                                <p class="text-stone-600 text-sm">Explore Hawaiian culture & history. (Alt: Iolani Palace). Lunch at <strong>Helena's Hawaiian Food</strong> (Poi/Rice for Maryana).</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">1525 Bernice St, Honolulu</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bishop+Museum+Honolulu" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
-                        <!-- Food -->
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="mountain" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Lunch: The Beet Box Cafe</h4>
-                                <p class="text-stone-600 text-sm mb-2">A staple for vegetarian and vegan health food.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-437 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=The+Beet+Box+Cafe+Haleiwa" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">2:30 PM: Manoa Falls Hike</h4>
+                                <p class="text-stone-600 text-sm">1.6 mile round-trip. Wear grippy shoes (muddy!). Snack at Waiola Shave Ice afterwards.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 border-t border-stone-100 pt-4">
+                            <div class="mt-1"><i data-lucide="utensils" class="text-red-600 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">Dinner: Side Street Inn</h4>
+                                <p class="text-stone-600 text-sm">Tofu salad & edamame. Reservations essential.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">1225 Hopaka St, Honolulu</div>
                             </div>
                         </div>
                     </div>
@@ -196,36 +206,24 @@
                 <!-- Day 4 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(3)">
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 4: Best Acai on the Island</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Beach</span>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 4: Windward Coast</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Scenic</span>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Activity -->
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="sun" class="text-yellow-500 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="waves" class="text-blue-400 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Sunset Beach</h4>
-                                <p class="text-stone-600 text-sm mb-2">World famous sands, perfect for wave watching.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    59-104 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=59-104+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">9:30 AM: Kaneohe Sandbar</h4>
+                                <p class="text-stone-600 text-sm">Depart He'eia Kea Harbor. Snorkel and wade in the bay. Scenic H3 drive to get there.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">46-499 Kamehameha Hwy, Kaneohe</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Heeia+Kea+Boat+Harbor" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
-                        <!-- Food -->
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="coffee" class="text-amber-700 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="camera" class="text-purple-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Snack: Haleiwa Bowls</h4>
-                                <p class="text-stone-600 text-sm mb-2">The best vegan acai bowls on the island.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-030 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Bowls" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">Afternoon: Food & Views</h4>
+                                <p class="text-stone-600 text-sm">Lunch at <strong>Fresh Catch</strong> (Seaweed salad/Tofu). Photo op at <strong>Kualoa Regional Park</strong> (Chinaman's Hat).</p>
                             </div>
                         </div>
                     </div>
@@ -234,36 +232,84 @@
                 <!-- Day 5 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(4)">
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 5: Underwater Adventure</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Snorkel</span>
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 5: Shrimp & Dolphins</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Nature</span>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Activity -->
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="anchor" class="text-blue-600 w-5 h-5"></i></div>
+                            <div class="mt-1"><i data-lucide="fish" class="text-blue-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Shark’s Cove</h4>
-                                <p class="text-stone-600 text-sm mb-2">Protected cove, arguably the best snorkeling on Oahu.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    59-712 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=59-712+Kamehameha+Hwy,+Haleiwa,+HI+96712" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">7:00 AM: Dolphin Excursion</h4>
+                                <p class="text-stone-600 text-sm">Haleiwa Harbor. Viewing only.</p>
                             </div>
                         </div>
-                        <!-- Food -->
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="map-pin" class="text-orange-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">12:00 PM: Kahuku Sugar Mill</h4>
+                                <p class="text-stone-600 text-sm">Lunch at <strong>Raised by the Waves</strong> (Vegan waffle/smoothie). Then view surf at <strong>Pipeline</strong>.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">56-565 Kamehameha Hwy, Kahuku</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kahuku+Sugar+Mill" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                            </div>
+                        </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
                             <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-lg text-stone-800">Dinner: Elephant Shack</h4>
-                                <p class="text-stone-600 text-sm mb-2">Amazing Thai food with plenty of vegan curry options.</p>
-                                <div class="bg-stone-50 p-3 rounded text-sm text-stone-500 font-mono mb-2">
-                                    66-111 Kamehameha Hwy, Haleiwa, HI 96712
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Elephant+Shack+Haleiwa" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold flex items-center gap-1">
-                                    Get Directions <i data-lucide="external-link" class="w-3 h-3"></i>
-                                </a>
+                                <h4 class="font-bold text-stone-800">Evening: Sunset Picnic</h4>
+                                <p class="text-stone-600 text-sm">Grab Foodland Poke (vegan opts) and head to <strong>Aweoweo Beach Park</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 6 -->
+                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(5)">
+                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 6: Waikiki Day Trip</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Urban</span>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="building" class="text-purple-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">10:00 AM: City Vibes</h4>
+                                <p class="text-stone-600 text-sm">Park at Royal Hawaiian Center (validate!). Lunch at <strong>Rainbow Drive-In</strong> (Plant-based plate).</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">2201 Kalakaua Ave, Honolulu</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Royal+Hawaiian+Center" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 border-t border-stone-100 pt-4">
+                            <div class="mt-1"><i data-lucide="glass-water" class="text-pink-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">Evening: Bar Hop & Dinner</h4>
+                                <p class="text-stone-600 text-sm">Mai Tai Bar, Duke's, Tiki's. Dinner at <strong>Moani's Waikiki</strong> (Veg/tofu fried rice + live music).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 7 -->
+                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(6)">
+                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
+                        <h3 class="text-xl serif font-bold text-teal-900">Day 7: Relaxed Departure</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Farewell</span>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i data-lucide="sun" class="text-yellow-500 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">9:00 AM: Shark's Cove</h4>
+                                <p class="text-stone-600 text-sm">Check surf report (<2 ft safe) for tide pools. Last soak in the ocean.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">59-711 Kamehameha Hwy, Haleiwa</div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sharks+Cove" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 border-t border-stone-100 pt-4">
+                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">12:30 PM: Farm to Barn</h4>
+                                <p class="text-stone-600 text-sm">Buddha bowl (vegan focused). Drive to HNL by 3:30 PM.</p>
+                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">66-320 Kamehameha Hwy, Haleiwa</div>
                             </div>
                         </div>
                     </div>
@@ -284,6 +330,7 @@
 
     <footer class="bg-teal-900 text-white py-8 text-center mt-auto">
         <p class="font-serif italic text-lg opacity-80">Made with ❤️ for You</p>
+        <p class="text-xs mt-2 text-teal-200">Please check local surf & weather reports daily.</p>
     </footer>
 
     <!-- Leaflet JS -->
@@ -293,37 +340,47 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Data for Map
+        // Data for Map (Updated for 7 Days)
         const locations = [
             {
-                title: "Day 1: Haleiwa",
-                coords: [21.5912, -158.1027],
-                desc: "Old Haleiwa Town & Raised by the Waves"
+                title: "Day 1: Haleiwa Joe's",
+                coords: [21.5878, -158.1035],
+                desc: "Dinner at Haleiwa Joe's & Settling In"
             },
             {
-                title: "Day 2: Waimea",
-                coords: [21.6415, -158.0583],
-                desc: "Waimea Valley & Farm to Barn"
+                title: "Day 2: Shark Tour",
+                coords: [21.5936, -158.1132],
+                desc: "Haleiwa Boat Harbor: Shark Tour"
             },
             {
-                title: "Day 3: Laniakea",
-                coords: [21.6186, -158.0855],
-                desc: "Turtle Beach & Beet Box Cafe"
+                title: "Day 3: Town & Culture",
+                coords: [21.3326, -157.8710],
+                desc: "Bishop Museum & Honolulu Exploration"
             },
             {
-                title: "Day 4: Sunset Beach",
-                coords: [21.6738, -158.0494],
-                desc: "Sunset Beach & Haleiwa Bowls"
+                title: "Day 4: Windward Coast",
+                coords: [21.4430, -157.8105],
+                desc: "He'eia Kea Harbor: Sandbar Charter"
             },
             {
-                title: "Day 5: Shark's Cove",
-                coords: [21.6508, -158.0624],
-                desc: "Shark's Cove & Elephant Shack"
+                title: "Day 5: Sugar Mill & Surf",
+                coords: [21.6806, -157.9542],
+                desc: "Kahuku Sugar Mill & Pipeline"
+            },
+            {
+                title: "Day 6: Waikiki",
+                coords: [21.2792, -157.8294],
+                desc: "Royal Hawaiian Center & City Vibes"
+            },
+            {
+                title: "Day 7: Shark's Cove",
+                coords: [21.6515, -158.0626],
+                desc: "Shark's Cove & Departure Prep"
             }
         ];
 
-        // Init Map (Centered on North Shore)
-        const map = L.map('map').setView([21.62, -158.08], 12);
+        // Init Map (Centered on Oahu)
+        const map = L.map('map').setView([21.47, -157.99], 10);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -348,10 +405,11 @@
             });
             markers[index].openPopup();
             
-            // Visual feedback on card selection could be added here
+            // Visual feedback on card selection
             document.querySelectorAll('.day-card').forEach((card, i) => {
                 if(i === index) {
                     card.classList.add('ring-2', 'ring-teal-500');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     card.classList.remove('ring-2', 'ring-teal-500');
                 }
