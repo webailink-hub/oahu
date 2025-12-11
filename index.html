@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="7-Day Oahu Itinerary for Andrew & Maryana. North Shore base, vegan-friendly, adventure packed.">
     <title>Oahu Itinerary: North Shore Base</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Leaflet CSS for Maps -->
@@ -27,8 +30,7 @@
             font-family: 'Playfair Display', serif;
         }
         .hero-bg {
-            /* Updated to a stunning North Shore sunset/beach vibe */
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://i.imgur.com/BBA5DlX.jpeg');
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -46,119 +48,225 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        /* Custom Tab Styles */
+        .tab-active {
+            border-bottom: 2px solid #0d9488; /* teal-600 */
+            color: #0f766e; /* teal-700 */
+            font-weight: 700;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <!-- Hero Section -->
-    <header class="hero-bg h-[75vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
-        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
+    <header class="hero-bg h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
+        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">North Shore Getaway</h1>
             
             <!-- Countdown Timer -->
-            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-8 w-full max-w-md mx-auto">
+            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-6 w-full max-w-md mx-auto">
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="days" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div id="days" class="text-xl md:text-3xl font-bold font-serif">00</div>
                     <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Days</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="hours" class="text-2xl md:text-3xl font-bold font-serif">00</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Hours</div>
+                    <div id="hours" class="text-xl md:text-3xl font-bold font-serif">00</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Hrs</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="minutes" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div id="minutes" class="text-xl md:text-3xl font-bold font-serif">00</div>
                     <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Mins</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="seconds" class="text-2xl md:text-3xl font-bold font-serif">00</div>
+                    <div id="seconds" class="text-xl md:text-3xl font-bold font-serif">00</div>
                     <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Secs</div>
                 </div>
             </div>
 
-            <div class="space-y-4">
-                <p class="text-xl md:text-2xl font-light italic leading-relaxed">
-                    "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing. I'm so excited for us."
+            <div class="space-y-2">
+                <p class="text-lg md:text-xl font-light italic leading-relaxed hidden md:block">
+                    "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing."
                 </p>
-                <p class="text-lg font-bold mt-4 uppercase tracking-widest">— Love, Andrew</p>
             </div>
-            <div class="mt-6 pt-6 border-t border-white/30 text-sm font-light opacity-90">
-                Optimized 7-Day Itinerary • Late Jan 2026 • Vegan Accommodations
+            <div class="mt-4 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Jan 21 - Jan 28</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep Confirmed</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Uncle's House</span>
             </div>
-        </div>
-        <div class="absolute bottom-6 animate-bounce">
-            <i data-lucide="chevron-down" class="w-8 h-8 text-white"></i>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-4 py-12">
+    <main class="flex-grow container mx-auto px-2 md:px-4 py-6 md:py-12">
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
             
-            <!-- Left Column: Itinerary -->
-            <div class="space-y-8 overflow-y-auto max-h-[120vh] scrollbar-hide pr-2">
-                
-                <!-- Agent's Overview Card -->
-                <div class="bg-stone-50 p-6 rounded-xl shadow-sm border border-stone-200">
-                    <h2 class="text-2xl serif font-bold text-stone-800 mb-4 flex items-center gap-2">
-                        <i data-lucide="briefcase" class="text-teal-700"></i> Trip Snapshot
-                    </h2>
-                    <div class="grid grid-cols-2 gap-4 text-sm mb-4">
-                        <div>
-                            <span class="font-bold text-stone-600">Base:</span> Uncle's House, Waialua
-                        </div>
-                        <div>
-                            <span class="font-bold text-stone-600">Vehicle:</span> 4x4 Jeep (Need to Book)
-                        </div>
-                        <div>
-                            <span class="font-bold text-stone-600">Budget:</span> ~$2,450 (Est.)
-                        </div>
-                        <div>
-                            <span class="font-bold text-stone-600">Season:</span> Whale Peak (Rainy)
-                        </div>
+            <!-- Left Column: Itinerary & Logistics -->
+            <div class="space-y-6 overflow-y-auto max-h-[120vh] scrollbar-hide pr-1 pb-12">
+
+                <!-- TRIP HUB: Budget & Logistics Toggle -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="flex border-b border-stone-100">
+                        <button onclick="switchTab('budget')" id="tab-budget" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 tab-active transition-colors">
+                            <i data-lucide="dollar-sign" class="inline w-4 h-4 mb-1"></i> Budget
+                        </button>
+                        <button onclick="switchTab('grocery')" id="tab-grocery" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
+                            <i data-lucide="shopping-basket" class="inline w-4 h-4 mb-1"></i> Groceries
+                        </button>
+                        <button onclick="switchTab('parking')" id="tab-parking" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
+                            <i data-lucide="parking-circle" class="inline w-4 h-4 mb-1"></i> Parking
+                        </button>
                     </div>
-                    <div class="text-xs text-stone-500 italic border-t border-stone-200 pt-3">
-                        *Tip: Always validate parking at malls. Drive carefully in rain. Check surf reports daily.
+
+                    <div class="p-6 bg-stone-50/50">
+                        <!-- Budget Content -->
+                        <div id="content-budget" class="block animate-fade-in-up">
+                            <h3 class="font-bold text-stone-800 mb-4 text-lg serif">Estimated Trip Budget</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="plane" class="w-4 h-4"></i> Flights (Est.)</span>
+                                    <span class="font-bold text-stone-800">$1,200.00</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2 bg-green-50 p-2 rounded">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="car" class="w-4 h-4"></i> Jeep (Paid)</span>
+                                    <span class="font-bold text-green-700">$436.00</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="fuel" class="w-4 h-4"></i> Gas (Est.)</span>
+                                    <span class="font-bold text-stone-800">$75.00</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> Accom (Uncle's)</span>
+                                    <span class="font-bold text-stone-800">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="utensils" class="w-4 h-4"></i> Food & Drink</span>
+                                    <span class="font-bold text-stone-800">$850.00</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
+                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="ticket" class="w-4 h-4"></i> Activities</span>
+                                    <span class="font-bold text-stone-800">$350.00</span>
+                                </div>
+                                <div class="flex justify-between items-center pt-2">
+                                    <span class="font-bold text-lg text-teal-800">Total Estimated</span>
+                                    <span class="font-bold text-lg text-teal-800">$2,911.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grocery Content -->
+                        <div id="content-grocery" class="hidden animate-fade-in-up">
+                            <h3 class="font-bold text-stone-800 mb-2 text-lg serif">Vegan Grocery List</h3>
+                            <p class="text-xs text-stone-500 mb-4">Stop at <strong>Costco Waipio</strong> first, then <strong>Tamura's/Foodland</strong>.</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h4 class="font-bold text-teal-700 mb-2 text-xs uppercase">Costco</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-stone-700 marker:text-teal-400">
+                                        <li>Organic Tofu (4-pack)</li>
+                                        <li>Almond/Oat Milk</li>
+                                        <li>Hummus & Crackers</li>
+                                        <li>Fresh Berries/Pineapple</li>
+                                        <li>Veggie Burgers</li>
+                                        <li>Avocados (Bag)</li>
+                                        <li>Liquid IV / Water</li>
+                                        <li>Local Beer/Seltzer</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-orange-600 mb-2 text-xs uppercase">Local Markets</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-stone-700 marker:text-orange-400">
+                                        <li>Poke (Tofu/Limu)</li>
+                                        <li>Papayas</li>
+                                        <li>Reef-safe Sunscreen</li>
+                                        <li>Macadamia Nuts</li>
+                                        <li>Coffee Beans</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Parking Content -->
+                        <div id="content-parking" class="hidden animate-fade-in-up">
+                            <h3 class="font-bold text-stone-800 mb-4 text-lg serif">Parking Intelligence</h3>
+                            <div class="space-y-4 text-sm">
+                                <div class="flex gap-3">
+                                    <div class="bg-purple-100 text-purple-600 p-2 rounded h-fit"><i data-lucide="building" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Waikiki (Royal Hawaiian)</h4>
+                                        <p class="text-stone-600">Park at Royal Hawaiian Ctr. Validated rate is cheapest. Buy a drink at the food court to validate.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="bg-blue-100 text-blue-600 p-2 rounded h-fit"><i data-lucide="waves" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Shark's Cove</h4>
+                                        <p class="text-stone-600">Tiny lot. Arrive before 9:00 AM or park across the street near the food trucks (carefully).</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="bg-green-100 text-green-600 p-2 rounded h-fit"><i data-lucide="mountain" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">Manoa Falls</h4>
+                                        <p class="text-stone-600">Official lot is ~$7 (credit card kiosk). Do not park in residential areas; high ticket risk.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="bg-orange-100 text-orange-600 p-2 rounded h-fit"><i data-lucide="alert-circle" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-stone-800">General Advice</h4>
+                                        <p class="text-stone-600">Leave <strong>nothing</strong> visible in the Jeep. Leave doors unlocked if soft top (prevents slashing).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Day 1 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(0)">
                     <div class="h-48 overflow-hidden relative">
-                         <!-- Haleiwa Town / Rainbow Bridge vibe -->
-                        <img src="https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" alt="Haleiwa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Arrival & Haleiwa</div>
+                        <img src="https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Haleiwa" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Arrival & Haleiwa</div>
+                            <div class="text-xs opacity-90 font-light">Wed, Jan 21</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 1: Settling In</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 1: Touchdown</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Logistics</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="plane" class="text-blue-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="plane" class="text-blue-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">12:00 PM: HNL Pickup & Lunch</h4>
-                                <p class="text-stone-600 text-sm">Pick up Jeep Wrangler. Stop at <strong>Zippy's Wahiawa</strong>. Vegan chili/burger available.</p>
-                                <div class="text-xs text-stone-400 mt-1">100 N Kamehameha Hwy, Wahiawa</div>
+                                <h4 class="font-bold text-stone-800">12:30 PM: Car Pickup</h4>
+                                <p class="text-stone-600 text-sm">Avis @ HNL. <strong>#00975026US3</strong>. Jeep is prepaid.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="shopping-cart" class="text-orange-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="shopping-cart" class="text-emerald-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Afternoon: Supplies</h4>
-                                <p class="text-stone-600 text-sm">Check in at Uncle's. Grocery run at <strong>Costco Waipio</strong> for vegan snacks/beer.</p>
+                                <h4 class="font-bold text-stone-800">2:00 PM: Supplies Run</h4>
+                                <p class="text-stone-600 text-sm"><strong>Costco Waipio</strong> (see Grocery tab). Then <strong>Zippy's</strong> for late lunch.</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Dinner: Haleiwa Joe's</h4>
-                                <p class="text-stone-600 text-sm">Sunset views. Maryana: Grilled artichoke (no aioli) + Mai Tai. Pre-dinner snack at Beet Box Cafe.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mb-2 mt-2">
-                                    66-011 Kamehameha Hwy, Haleiwa, HI
-                                </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Joes+Haleiwa" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">6:30 PM: Dinner @ Haleiwa Joe's</h4>
+                                <p class="text-stone-600 text-sm">No reservations taken—arrive early for sunset. <strong>Parking:</strong> Lot fills fast; park on street if needed.</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Joes+Haleiwa" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
                     </div>
@@ -167,37 +275,40 @@
                 <!-- Day 2 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(1)">
                     <div class="h-48 overflow-hidden relative">
-                        <!-- Underwater / Ocean for Shark Tour -->
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" alt="Ocean Adventure" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">North Shore Exploration</div>
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Ocean Adventure" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">North Shore Exploration</div>
+                            <div class="text-xs opacity-90 font-light">Thu, Jan 22</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 2: Sharks & Shave Ice</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 2: Sharks & Shave Ice</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Adventure</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="anchor" class="text-blue-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="anchor" class="text-blue-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">7:30 AM: Shark Tour</h4>
-                                <p class="text-stone-600 text-sm">Haleiwa Small Boat Harbor. Cage-free snorkel. Watch for whales!</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">66-105 Haleiwa Rd, Haleiwa</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Small+Boat+Harbor" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">7:00 AM: Arrive Harbor</h4>
+                                <p class="text-stone-600 text-sm">Tour starts 7:30 AM sharp. Haleiwa Small Boat Harbor. <strong>Parking:</strong> ample free parking at harbor.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="coffee" class="text-amber-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="coffee" class="text-amber-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Lunch & Dessert</h4>
-                                <p class="text-stone-600 text-sm"><strong>Tamura's Market</strong> for Tofu Poke. Then <strong>Matsumoto Shave Ice</strong> (add mochi/beans, skip milk).</p>
+                                <h4 class="font-bold text-stone-800">12:00 PM: Post-Shark Fuel</h4>
+                                <p class="text-stone-600 text-sm"><strong>Tamura's Market</strong> for Tofu Poke. <strong>Matsumoto Shave Ice</strong> for dessert (line moves fast).</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="sunset" class="text-orange-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="sunset" class="text-orange-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">5:00 PM: Ali'i Beach Park</h4>
-                                <p class="text-stone-600 text-sm">Relaxing sunset viewing. Dinner at home (casual pizza/snacks).</p>
+                                <h4 class="font-bold text-stone-800">5:15 PM: Ali'i Beach Park</h4>
+                                <p class="text-stone-600 text-sm">Sunset is ~6:10 PM. Bring chairs/towels.</p>
                             </div>
                         </div>
                     </div>
@@ -206,38 +317,41 @@
                 <!-- Day 3 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(2)">
                     <div class="h-48 overflow-hidden relative">
-                        <!-- Lush Rainforest / Waterfall vibe -->
-                        <img src="https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" alt="Manoa Falls" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Town Day & Culture</div>
+                        <img src="https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Manoa Falls" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Town Day & Culture</div>
+                            <div class="text-xs opacity-90 font-light">Fri, Jan 23</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 3: History & Hikes</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 3: History & Hikes</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Culture</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="landmark" class="text-stone-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="landmark" class="text-stone-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">9:00 AM: Bishop Museum</h4>
-                                <p class="text-stone-600 text-sm">Explore Hawaiian culture & history. (Alt: Iolani Palace). Lunch at <strong>Helena's Hawaiian Food</strong> (Poi/Rice for Maryana).</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">1525 Bernice St, Honolulu</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Bishop+Museum+Honolulu" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">9:30 AM: Bishop Museum</h4>
+                                <p class="text-stone-600 text-sm">Plan for 2-3 hours. Parking is \$5/car on campus.</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bishop+Museum+Honolulu" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="mountain" class="text-green-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="mountain" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">2:30 PM: Manoa Falls Hike</h4>
-                                <p class="text-stone-600 text-sm">1.6 mile round-trip. Wear grippy shoes (muddy!). Snack at Waiola Shave Ice afterwards.</p>
+                                <h4 class="font-bold text-stone-800">2:00 PM: Manoa Falls</h4>
+                                <p class="text-stone-600 text-sm">Hike takes ~1.5 hrs. Park in paid lot ($7). Don't leave valuables in car!</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-red-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-red-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Dinner: Side Street Inn</h4>
-                                <p class="text-stone-600 text-sm">Tofu salad & edamame. Reservations essential.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">1225 Hopaka St, Honolulu</div>
+                                <h4 class="font-bold text-stone-800">6:00 PM: Side Street Inn</h4>
+                                <p class="text-stone-600 text-sm">Reservation needed. Valet parking only (usually ~$5-7).</p>
                             </div>
                         </div>
                     </div>
@@ -246,30 +360,33 @@
                 <!-- Day 4 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(3)">
                     <div class="h-48 overflow-hidden relative">
-                        <!-- Kualoa / Chinaman's Hat -->
-                        <img src="https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" alt="Windward Coast" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Windward Coast</div>
+                        <img src="https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" 
+                             alt="Windward Coast" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Windward Coast</div>
+                            <div class="text-xs opacity-90 font-light">Sat, Jan 24</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 4: Sandbar & Scenic Drive</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 4: Sandbar & Views</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Scenic</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="waves" class="text-blue-400 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="waves" class="text-blue-400 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">9:30 AM: Kaneohe Sandbar</h4>
-                                <p class="text-stone-600 text-sm">Depart He'eia Kea Harbor. Snorkel and wade in the bay. Scenic H3 drive to get there.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">46-499 Kamehameha Hwy, Kaneohe</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Heeia+Kea+Boat+Harbor" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">9:00 AM: He'eia Kea Harbor</h4>
+                                <p class="text-stone-600 text-sm">Kaneohe Sandbar Charter. Arrive 30 mins early. Free parking at harbor.</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="camera" class="text-purple-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="camera" class="text-purple-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Afternoon: Food & Views</h4>
-                                <p class="text-stone-600 text-sm">Lunch at <strong>Fresh Catch</strong> (Seaweed salad/Tofu). Photo op at <strong>Kualoa Regional Park</strong> (Chinaman's Hat).</p>
+                                <h4 class="font-bold text-stone-800">2:00 PM: Windward Cruising</h4>
+                                <p class="text-stone-600 text-sm">Lunch at <strong>Fresh Catch Kaneohe</strong>. Drive North past Kualoa Ranch. Stop at Kualoa Regional Park for photos.</p>
                             </div>
                         </div>
                     </div>
@@ -278,37 +395,40 @@
                 <!-- Day 5 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(4)">
                     <div class="h-48 overflow-hidden relative">
-                         <!-- Pipeline / Surf -->
-                        <img src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" alt="Pipeline Surf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Shrimp & Dolphins</div>
+                        <img src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Pipeline Surf" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Shrimp & Dolphins</div>
+                            <div class="text-xs opacity-90 font-light">Sun, Jan 25</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 5: North Shore Mix</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 5: North Shore Mix</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Nature</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="fish" class="text-blue-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="fish" class="text-blue-600 w-5 h-5"></i></div>
                             <div>
                                 <h4 class="font-bold text-stone-800">7:00 AM: Dolphin Excursion</h4>
-                                <p class="text-stone-600 text-sm">Haleiwa Harbor. Viewing only.</p>
+                                <p class="text-stone-600 text-sm">Haleiwa Harbor. Early morning = calmest water.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="map-pin" class="text-orange-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="map-pin" class="text-orange-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">12:00 PM: Kahuku Sugar Mill</h4>
-                                <p class="text-stone-600 text-sm">Lunch at <strong>Raised by the Waves</strong> (Vegan waffle/smoothie). Then view surf at <strong>Pipeline</strong>.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">56-565 Kamehameha Hwy, Kahuku</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Kahuku+Sugar+Mill" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">12:30 PM: Kahuku Lunch</h4>
+                                <p class="text-stone-600 text-sm"><strong>Raised by the Waves</strong> at Kahuku Sugar Mill. Vegan waffles/smoothies. Parking is dirt lot (free).</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Evening: Sunset Picnic</h4>
-                                <p class="text-stone-600 text-sm">Grab Foodland Poke (vegan opts) and head to <strong>Aweoweo Beach Park</strong>.</p>
+                                <h4 class="font-bold text-stone-800">5:30 PM: Sunset Picnic</h4>
+                                <p class="text-stone-600 text-sm"><strong>Aweoweo Beach Park</strong> in Waialua. Very quiet local beach. Street parking available.</p>
                             </div>
                         </div>
                     </div>
@@ -317,30 +437,34 @@
                 <!-- Day 6 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(5)">
                     <div class="h-48 overflow-hidden relative">
-                        <!-- Waikiki / Diamond Head -->
-                        <img src="https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" alt="Waikiki" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Waikiki Day Trip</div>
+                        <img src="https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Waikiki" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Waikiki Day Trip</div>
+                            <div class="text-xs opacity-90 font-light">Mon, Jan 26</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 6: City Vibes</h3>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 6: City Vibes</h3>
                         <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Urban</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="building" class="text-purple-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="building" class="text-purple-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">10:00 AM: City Vibes</h4>
-                                <p class="text-stone-600 text-sm">Park at Royal Hawaiian Center (validate!). Lunch at <strong>Rainbow Drive-In</strong> (Plant-based plate).</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">2201 Kalakaua Ave, Honolulu</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Royal+Hawaiian+Center" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">10:00 AM: Arrival & Park</h4>
+                                <p class="text-stone-600 text-sm">Park at <strong>Royal Hawaiian Center</strong>. Get validation at food court or shops (1st hr free, 2nd \$2).</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Royal+Hawaiian+Center" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="glass-water" class="text-pink-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="glass-water" class="text-pink-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">Evening: Bar Hop & Dinner</h4>
-                                <p class="text-stone-600 text-sm">Mai Tai Bar, Duke's, Tiki's. Dinner at <strong>Moani's Waikiki</strong> (Veg/tofu fried rice + live music).</p>
+                                <h4 class="font-bold text-stone-800">5:00 PM: Evening Flow</h4>
+                                <p class="text-stone-600 text-sm">Drinks at Mai Tai Bar. Dinner at <strong>Moani's Waikiki</strong> (Intl Market Place - 3rd floor). Live music!</p>
                             </div>
                         </div>
                     </div>
@@ -349,31 +473,40 @@
                 <!-- Day 7 -->
                 <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(6)">
                     <div class="h-48 overflow-hidden relative">
-                         <!-- Shark's Cove / North Shore Rocky -->
-                        <img src="https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" alt="North Shore Coast" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white font-serif font-bold text-xl drop-shadow-md">Relaxed Departure</div>
+                        <img src="https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" 
+                             alt="North Shore Coast" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <div class="font-serif font-bold text-xl drop-shadow-md">Farewell</div>
+                            <div class="text-xs opacity-90 font-light">Wed, Jan 28</div>
+                        </div>
                     </div>
                     <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-xl serif font-bold text-teal-900">Day 7: Farewell</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Farewell</span>
+                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 7: Departure</h3>
+                        <span class="text-xs font-bold uppercase tracking-wider text-red-600 bg-red-100 px-2 py-1 rounded">Return 12:30 PM</span>
                     </div>
                     <div class="p-6 space-y-6">
                         <div class="flex gap-4">
-                            <div class="mt-1"><i data-lucide="sun" class="text-yellow-500 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="sun" class="text-yellow-500 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">9:00 AM: Shark's Cove</h4>
-                                <p class="text-stone-600 text-sm">Check surf report (<2 ft safe) for tide pools. Last soak in the ocean.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">59-711 Kamehameha Hwy, Haleiwa</div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Sharks+Cove" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                                <h4 class="font-bold text-stone-800">8:00 AM: Farm to Barn</h4>
+                                <p class="text-stone-600 text-sm">Final breakfast. Great coffee and open-air seating. <strong>Parking:</strong> Grass lot on site.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="car" class="text-stone-600 w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-stone-800">10:30 AM: Wheels Up</h4>
+                                <p class="text-stone-600 text-sm">Depart Waialua. Allow 50 mins for drive + gas refill near airport (Costco Iwilei has cheap gas if time permits).</p>
                             </div>
                         </div>
                         <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
+                            <div class="mt-1 flex-shrink-0"><i data-lucide="check-square" class="text-green-600 w-5 h-5"></i></div>
                             <div>
-                                <h4 class="font-bold text-stone-800">12:30 PM: Farm to Barn</h4>
-                                <p class="text-stone-600 text-sm">Buddha bowl (vegan focused). Drive to HNL by 3:30 PM.</p>
-                                <div class="bg-stone-50 p-2 rounded text-sm text-stone-500 font-mono mt-1">66-320 Kamehameha Hwy, Haleiwa</div>
+                                <h4 class="font-bold text-stone-800">12:30 PM: Car Return @ HNL</h4>
+                                <p class="text-stone-600 text-sm">Return Jeep to Avis. Safe travels!</p>
                             </div>
                         </div>
                     </div>
@@ -382,10 +515,10 @@
             </div>
 
             <!-- Right Column: Map -->
-            <div class="lg:sticky lg:top-8 h-[50vh] lg:h-[80vh] bg-white rounded-xl shadow-lg border border-stone-200 p-2">
+            <div class="lg:sticky lg:top-8 h-[50vh] lg:h-[85vh] bg-white rounded-xl shadow-lg border border-stone-200 p-2 z-10">
                 <div id="map"></div>
-                <div class="mt-2 text-center text-sm text-stone-500 italic">
-                    Click any day on the left to locate it on the map.
+                <div class="mt-2 text-center text-xs text-stone-500 italic">
+                    Click any card to fly to location.
                 </div>
             </div>
 
@@ -394,7 +527,7 @@
 
     <footer class="bg-teal-900 text-white py-8 text-center mt-auto">
         <p class="font-serif italic text-lg opacity-80">Made with ❤️ for You</p>
-        <p class="text-xs mt-2 text-teal-200">Please check local surf & weather reports daily.</p>
+        <p class="text-xs mt-2 text-teal-200 opacity-60">Confirmed: Jeep Wrangler #00975026US3</p>
     </footer>
 
     <!-- Leaflet JS -->
@@ -404,17 +537,15 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Countdown Timer
-        // Setting target date to January 21, 2026 at 7:00 AM
-        const targetDate = new Date('January 21, 2026 07:00:00').getTime();
+        // Countdown Timer: Jan 21, 2026 12:30 PM
+        const targetDate = new Date('January 21, 2026 12:30:00').getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
             if (distance < 0) {
-                // If the date has passed, you might want to show "Enjoy your trip!" or similar
-                // For now, we'll leave it at 00
+                document.getElementById('days').innerText = "00";
                 return;
             }
 
@@ -432,12 +563,29 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Data for Map (Updated for 7 Days)
+        // Tab Switching Logic
+        window.switchTab = function(tabName) {
+            // Hide all content
+            document.getElementById('content-budget').classList.add('hidden');
+            document.getElementById('content-grocery').classList.add('hidden');
+            document.getElementById('content-parking').classList.add('hidden');
+            
+            // Remove active style from all tabs
+            document.getElementById('tab-budget').classList.remove('tab-active', 'text-teal-700');
+            document.getElementById('tab-grocery').classList.remove('tab-active', 'text-teal-700');
+            document.getElementById('tab-parking').classList.remove('tab-active', 'text-teal-700');
+
+            // Show selected content & activate tab
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('tab-active', 'text-teal-700');
+        }
+
+        // Data for Map
         const locations = [
             {
-                title: "Day 1: Haleiwa Joe's",
+                title: "Day 1: Avis Pickup & Dinner",
                 coords: [21.5878, -158.1035],
-                desc: "Dinner at Haleiwa Joe's & Settling In"
+                desc: "12:30 PM Pickup @ HNL -> Haleiwa Joe's"
             },
             {
                 title: "Day 2: Shark Tour",
@@ -465,9 +613,9 @@
                 desc: "Royal Hawaiian Center & City Vibes"
             },
             {
-                title: "Day 7: Shark's Cove",
-                coords: [21.6515, -158.0626],
-                desc: "Shark's Cove & Departure Prep"
+                title: "Day 7: HNL Departure",
+                coords: [21.3187, -157.9220],
+                desc: "12:30 PM Car Return @ Avis"
             }
         ];
 
@@ -489,25 +637,24 @@
         });
 
         // Function to focus on a specific day
-        function focusDay(index) {
+        window.focusDay = function(index) {
             const loc = locations[index];
-            map.flyTo(loc.coords, 14, {
+            map.flyTo(loc.coords, 13, {
                 animate: true,
-                duration: 1.5
+                duration: 1.2
             });
             markers[index].openPopup();
             
             // Visual feedback on card selection
             document.querySelectorAll('.day-card').forEach((card, i) => {
                 if(i === index) {
-                    card.classList.add('ring-2', 'ring-teal-500');
+                    card.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2');
                     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
-                    card.classList.remove('ring-2', 'ring-teal-500');
+                    card.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2');
                 }
             });
         }
     </script>
 </body>
 </html>
-
