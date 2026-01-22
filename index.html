@@ -61,13 +61,26 @@
             color: #0f766e; /* teal-700 */
             font-weight: 700;
         }
+        /* Firework Canvas */
+        #loveCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicking through the canvas */
+            z-index: 9999;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
+    <!-- Firework Canvas Overlay -->
+    <canvas id="loveCanvas"></canvas>
+
     <!-- Hero Section -->
     <header class="hero-bg h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
-        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up">
+        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up relative z-10">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">North Shore Getaway</h1>
             
             <!-- Countdown Timer -->
@@ -95,7 +108,16 @@
                     "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing."
                 </p>
             </div>
-            <div class="mt-4 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
+            
+            <!-- Surprise Button -->
+            <div class="mt-6">
+                <button onclick="launchLove()" class="group relative inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold text-white transition-all duration-200 bg-pink-500 rounded-full hover:bg-pink-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-600 shadow-lg animate-pulse hover:animate-none">
+                    <i data-lucide="heart" class="w-5 h-5 fill-white group-hover:scale-110 transition-transform"></i>
+                    <span>For Maryana</span>
+                </button>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
                 <span class="bg-teal-900/40 px-2 py-1 rounded">Jan 21 - Jan 28</span>
                 <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep Confirmed</span>
                 <span class="bg-teal-900/40 px-2 py-1 rounded">Uncle's House</span>
@@ -655,6 +677,170 @@
                 }
             });
         }
+
+        /* ----------------------------------------------------------------
+           LOVE ANIMATION LOGIC 
+           Rocket -> Heart Explosion
+        ---------------------------------------------------------------- */
+        let canvas, ctx, canvasWidth, canvasHeight;
+        let rockets = [];
+        let particles = [];
+        let animationId;
+
+        function initCanvas() {
+            canvas = document.getElementById('loveCanvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        function resizeCanvas() {
+            if(!canvas) return;
+            canvasWidth = canvas.width = window.innerWidth;
+            canvasHeight = canvas.height = window.innerHeight;
+        }
+
+        window.launchLove = function() {
+            if (!canvas) initCanvas();
+            
+            // Launch a rocket from bottom center
+            // Slightly randomized start x so they aren't all perfectly identical if clicked fast
+            const startX = canvasWidth / 2 + (Math.random() * 40 - 20);
+            rockets.push(new Rocket(startX, canvasHeight));
+            
+            if (!animationId) animate();
+        }
+
+        class Rocket {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vy = -15; // Initial upward velocity
+                this.color = '#ec4899'; // pink-500
+                this.exploded = false;
+            }
+
+            draw() {
+                // Glow effect
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Reset shadow
+                ctx.shadowBlur = 0;
+
+                // Simple Trail
+                ctx.fillStyle = 'rgba(236, 72, 153, 0.4)';
+                ctx.beginPath();
+                ctx.ellipse(this.x, this.y + 15, 2, 10, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            update() {
+                this.y += this.vy;
+                this.vy += 0.1; // mild gravity on the rocket itself slows it down as it rises
+                
+                // Explode when it reaches top 25% of screen
+                if (this.y < canvasHeight * 0.25 || this.vy >= 0) {
+                    this.exploded = true;
+                    createHeart(this.x, this.y);
+                }
+            }
+        }
+
+        function createHeart(x, y) {
+            const particleCount = 200;
+            for (let i = 0; i < particleCount; i++) {
+                // t goes from 0 to 2PI
+                const t = (Math.PI * 2 * i) / particleCount;
+                
+                // Heart Formula:
+                // x = 16 * sin(t)^3
+                // y = 13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t)
+                // We flip Y because canvas Y grows downwards
+                
+                const hx = 16 * Math.pow(Math.sin(t), 3);
+                const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                
+                // Multiply by a factor to spread them out as velocity vectors
+                const speed = 0.2 + Math.random() * 0.1; 
+                
+                particles.push(new Particle(x, y, hx * speed, hy * speed));
+            }
+        }
+
+        class Particle {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.life = 150; // frames
+                // Random warm colors: pinks, reds, golds
+                const hue = Math.random() > 0.5 ? Math.random() * 20 + 340 : Math.random() * 30 + 10; 
+                this.color = `hsl(${hue}, 100%, 65%)`;
+                this.gravity = 0.05;
+                this.drag = 0.96;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                this.vy += this.gravity;
+                this.vx *= this.drag;
+                this.vy *= this.drag;
+                
+                this.life -= 1;
+            }
+
+            draw() {
+                ctx.globalAlpha = Math.max(0, this.life / 100);
+                ctx.fillStyle = this.color;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            
+            // Update Rockets
+            for (let i = rockets.length - 1; i >= 0; i--) {
+                const r = rockets[i];
+                r.update();
+                r.draw();
+                if (r.exploded) {
+                    rockets.splice(i, 1);
+                }
+            }
+            
+            // Update Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            
+            if (rockets.length > 0 || particles.length > 0) {
+                animationId = requestAnimationFrame(animate);
+            } else {
+                animationId = null;
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            }
+        }
+
     </script>
 </body>
 </html>
