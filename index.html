@@ -81,31 +81,31 @@
     <!-- Hero Section -->
     <header class="hero-bg h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
         <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">North Shore Getaway</h1>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">We're Finally Here!</h1>
             
-            <!-- Countdown Timer -->
+            <!-- Dashboard (Replaces Countdown) -->
             <div class="grid grid-cols-4 gap-2 md:gap-4 mb-6 w-full max-w-md mx-auto">
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="days" class="text-xl md:text-3xl font-bold font-serif">00</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Days</div>
+                    <div class="text-xl md:text-3xl font-bold font-serif">01</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Day</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="hours" class="text-xl md:text-3xl font-bold font-serif">00</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Hrs</div>
+                    <div class="text-xl md:text-3xl font-bold font-serif">82°</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Temp</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="minutes" class="text-xl md:text-3xl font-bold font-serif">00</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Mins</div>
+                    <div class="text-xl md:text-3xl font-bold font-serif">100%</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Vibe</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div id="seconds" class="text-xl md:text-3xl font-bold font-serif">00</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Secs</div>
+                    <div class="text-xl md:text-3xl font-bold font-serif">∞</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Love</div>
                 </div>
             </div>
 
             <div class="space-y-2">
                 <p class="text-lg md:text-xl font-light italic leading-relaxed hidden md:block">
-                    "I can't wait for this trip. You are my sunshine, and spending time with you is absolutely amazing."
+                    "I am so happy to be here with you. You are my sunshine, and this week is going to be absolutely amazing."
                 </p>
             </div>
             
@@ -113,14 +113,14 @@
             <div class="mt-6">
                 <button onclick="launchLove()" class="group relative inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold text-white transition-all duration-200 bg-pink-500 rounded-full hover:bg-pink-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-600 shadow-lg animate-pulse hover:animate-none">
                     <i data-lucide="heart" class="w-5 h-5 fill-white group-hover:scale-110 transition-transform"></i>
-                    <span>For Maryana</span>
+                    <span>Click Me, Maryana!</span>
                 </button>
             </div>
 
             <div class="mt-6 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Jan 21 - Jan 28</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep Confirmed</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Uncle's House</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Current Loc: North Shore</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep: Parked</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Mode: Vacation</span>
             </div>
         </div>
     </header>
@@ -559,32 +559,6 @@
         // Initialize Icons
         lucide.createIcons();
 
-        // Countdown Timer: Jan 21, 2026 12:30 PM
-        const targetDate = new Date('January 21, 2026 12:30:00').getTime();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                document.getElementById('days').innerText = "00";
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
         // Tab Switching Logic
         window.switchTab = function(tabName) {
             // Hide all content
@@ -703,20 +677,24 @@
         window.launchLove = function() {
             if (!canvas) initCanvas();
             
-            // Launch a rocket from bottom center
-            // Slightly randomized start x so they aren't all perfectly identical if clicked fast
-            const startX = canvasWidth / 2 + (Math.random() * 40 - 20);
-            rockets.push(new Rocket(startX, canvasHeight));
-            
-            if (!animationId) animate();
+            // Launch a barrage of rockets!
+            // Fire 5 rockets with slight delay
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    // Randomize start X slightly
+                    const startX = canvasWidth / 2 + (Math.random() * 200 - 100);
+                    rockets.push(new Rocket(startX, canvasHeight));
+                    if (!animationId) animate();
+                }, i * 200); // 200ms delay between shots
+            }
         }
 
         class Rocket {
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
-                this.vy = -15; // Initial upward velocity
-                this.color = '#ec4899'; // pink-500
+                this.vy = -(12 + Math.random() * 4); // Random speed between -12 and -16
+                this.color = Math.random() > 0.5 ? '#ec4899' : '#f43f5e'; // Pink-500 or Rose-500
                 this.exploded = false;
             }
 
@@ -742,10 +720,10 @@
 
             update() {
                 this.y += this.vy;
-                this.vy += 0.1; // mild gravity on the rocket itself slows it down as it rises
+                this.vy += 0.1; 
                 
-                // Explode when it reaches top 25% of screen
-                if (this.y < canvasHeight * 0.25 || this.vy >= 0) {
+                // Explode higher up (top 30%)
+                if (this.y < canvasHeight * 0.3 || this.vy >= 0) {
                     this.exploded = true;
                     createHeart(this.x, this.y);
                 }
@@ -753,21 +731,21 @@
         }
 
         function createHeart(x, y) {
-            const particleCount = 200;
+            // Massive increase in particles
+            const particleCount = 400; 
             for (let i = 0; i < particleCount; i++) {
-                // t goes from 0 to 2PI
                 const t = (Math.PI * 2 * i) / particleCount;
                 
-                // Heart Formula:
-                // x = 16 * sin(t)^3
-                // y = 13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t)
-                // We flip Y because canvas Y grows downwards
+                // Bigger Heart Formula:
+                // Increase coefficients to make the heart physically larger on screen
+                // x = 30 * sin(t)^3
+                // y = 25 * ...
                 
-                const hx = 16 * Math.pow(Math.sin(t), 3);
-                const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                const hx = 30 * Math.pow(Math.sin(t), 3);
+                const hy = -(26 * Math.cos(t) - 10 * Math.cos(2 * t) - 4 * Math.cos(3 * t) - 2 * Math.cos(4 * t));
                 
-                // Multiply by a factor to spread them out as velocity vectors
-                const speed = 0.2 + Math.random() * 0.1; 
+                // Speed multiplier to make it explode outward vigorously
+                const speed = 0.2 + Math.random() * 0.3; 
                 
                 particles.push(new Particle(x, y, hx * speed, hy * speed));
             }
@@ -779,8 +757,8 @@
                 this.y = y;
                 this.vx = vx;
                 this.vy = vy;
-                this.life = 150; // frames
-                // Random warm colors: pinks, reds, golds
+                this.life = 200; // Longer life
+                // Random warm colors
                 const hue = Math.random() > 0.5 ? Math.random() * 20 + 340 : Math.random() * 30 + 10; 
                 this.color = `hsl(${hue}, 100%, 65%)`;
                 this.gravity = 0.05;
@@ -799,7 +777,7 @@
             }
 
             draw() {
-                ctx.globalAlpha = Math.max(0, this.life / 100);
+                ctx.globalAlpha = Math.max(0, this.life / 200);
                 ctx.fillStyle = this.color;
                 
                 ctx.beginPath();
