@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="7-Day Oahu Itinerary for Andrew & Maryana. North Shore base, vegan-friendly, adventure packed.">
-    <title>Oahu Itinerary: North Shore Base</title>
+    <meta name="description" content="Oahu Itinerary for Andrew & Maryana. North Shore base, vegan-friendly, adventure packed.">
+    <title>Andrew & Maryana's Oahu Adventure</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
-    <!-- Leaflet CSS for Maps -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     
     <!-- Lucide Icons -->
@@ -36,7 +36,7 @@
         }
         #map {
             height: 100%;
-            min-height: 400px;
+            min-height: 500px;
             width: 100%;
             border-radius: 0.75rem;
             z-index: 1;
@@ -55,21 +55,57 @@
         .animate-fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
         }
-        /* Custom Tab Styles */
         .tab-active {
-            border-bottom: 2px solid #0d9488; /* teal-600 */
-            color: #0f766e; /* teal-700 */
+            border-bottom: 2px solid #0d9488;
+            color: #0f766e;
             font-weight: 700;
         }
-        /* Firework Canvas */
         #loveCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Allows clicking through the canvas */
+            pointer-events: none;
             z-index: 9999;
+        }
+        /* Map Marker Styles */
+        .marker-pin {
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -15px 0 0 -15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .marker-pin::after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            margin: 3px 0 0 3px;
+            background: #fff;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .marker-number {
+            position: absolute;
+            z-index: 10;
+            font-size: 11px;
+            font-weight: bold;
+            color: #333;
+            width: 30px;
+            text-align: center;
+            top: -5px; /* Adjust based on rotation */
+        }
+        .custom-div-icon {
+            background: transparent;
+            border: none;
         }
     </style>
 </head>
@@ -79,19 +115,19 @@
     <canvas id="loveCanvas"></canvas>
 
     <!-- Hero Section -->
-    <header class="hero-bg h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
+    <header class="hero-bg h-[55vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
         <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">We're Finally Here!</h1>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">We're Finally Here!</h1>
             
-            <!-- Dashboard (Replaces Countdown) -->
-            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-6 w-full max-w-md mx-auto">
+            <!-- Dashboard -->
+            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-4 w-full max-w-md mx-auto">
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div class="text-xl md:text-3xl font-bold font-serif">01</div>
+                    <div class="text-xl md:text-3xl font-bold font-serif" id="currentDayDisplay">4</div>
                     <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Day</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
                     <div class="text-xl md:text-3xl font-bold font-serif">82°</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Temp</div>
+                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Sunny</div>
                 </div>
                 <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
                     <div class="text-xl md:text-3xl font-bold font-serif">100%</div>
@@ -110,30 +146,30 @@
             </div>
             
             <!-- Surprise Button -->
-            <div class="mt-6">
+            <div class="mt-4">
                 <button onclick="launchLove()" class="group relative inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold text-white transition-all duration-200 bg-pink-500 rounded-full hover:bg-pink-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-600 shadow-lg animate-pulse hover:animate-none">
                     <i data-lucide="heart" class="w-5 h-5 fill-white group-hover:scale-110 transition-transform"></i>
                     <span>Click Me, Maryana!</span>
                 </button>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Current Loc: North Shore</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep: Parked</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Mode: Vacation</span>
+            <div class="mt-4 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Base: Waialua</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep: Ready</span>
+                <span class="bg-teal-900/40 px-2 py-1 rounded">Sunscreen: Packed?</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-2 md:px-4 py-6 md:py-12">
+    <main class="flex-grow container mx-auto px-2 md:px-4 py-6">
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
             
             <!-- Left Column: Itinerary & Logistics -->
             <div class="space-y-6 overflow-y-auto max-h-[120vh] scrollbar-hide pr-1 pb-12">
 
-                <!-- TRIP HUB: Budget & Logistics Toggle -->
+                <!-- TRIP HUB -->
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
                     <div class="flex border-b border-stone-100">
                         <button onclick="switchTab('budget')" id="tab-budget" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 tab-active transition-colors">
@@ -142,524 +178,298 @@
                         <button onclick="switchTab('grocery')" id="tab-grocery" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
                             <i data-lucide="shopping-basket" class="inline w-4 h-4 mb-1"></i> Groceries
                         </button>
-                        <button onclick="switchTab('parking')" id="tab-parking" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
-                            <i data-lucide="parking-circle" class="inline w-4 h-4 mb-1"></i> Parking
+                        <button onclick="switchTab('tips')" id="tab-tips" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
+                            <i data-lucide="info" class="inline w-4 h-4 mb-1"></i> Tips
                         </button>
                     </div>
 
                     <div class="p-6 bg-stone-50/50">
-                        <!-- Budget Content -->
                         <div id="content-budget" class="block animate-fade-in-up">
-                            <h3 class="font-bold text-stone-800 mb-4 text-lg serif">Estimated Trip Budget</h3>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="plane" class="w-4 h-4"></i> Flights (Est.)</span>
-                                    <span class="font-bold text-stone-800">$1,200.00</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2 bg-green-50 p-2 rounded">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="car" class="w-4 h-4"></i> Jeep (Paid)</span>
-                                    <span class="font-bold text-green-700">$436.00</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="fuel" class="w-4 h-4"></i> Gas (Est.)</span>
-                                    <span class="font-bold text-stone-800">$75.00</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> Accom (Uncle's)</span>
-                                    <span class="font-bold text-stone-800">$0.00</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="utensils" class="w-4 h-4"></i> Food & Drink</span>
-                                    <span class="font-bold text-stone-800">$850.00</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-stone-200 pb-2">
-                                    <span class="text-stone-600 flex items-center gap-2"><i data-lucide="ticket" class="w-4 h-4"></i> Activities</span>
-                                    <span class="font-bold text-stone-800">$350.00</span>
-                                </div>
-                                <div class="flex justify-between items-center pt-2">
-                                    <span class="font-bold text-lg text-teal-800">Total Estimated</span>
-                                    <span class="font-bold text-lg text-teal-800">$2,911.00</span>
-                                </div>
+                            <div class="flex justify-between items-center pb-2 border-b border-stone-200">
+                                <span class="text-stone-600 text-sm">Flights & Jeep (Paid)</span>
+                                <span class="font-bold text-green-700 text-sm">Done</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-stone-200">
+                                <span class="text-stone-600 text-sm">Est. Food & Fun</span>
+                                <span class="font-bold text-stone-800 text-sm">~$1,200</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-2">
+                                <span class="text-stone-600 text-sm">Uncle's House</span>
+                                <span class="font-bold text-teal-700 text-sm">Free!</span>
                             </div>
                         </div>
 
-                        <!-- Grocery Content -->
                         <div id="content-grocery" class="hidden animate-fade-in-up">
-                            <h3 class="font-bold text-stone-800 mb-2 text-lg serif">Vegan Grocery List</h3>
-                            <p class="text-xs text-stone-500 mb-4">Stop at <strong>Costco Waipio</strong> first, then <strong>Tamura's/Foodland</strong>.</p>
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <h4 class="font-bold text-teal-700 mb-2 text-xs uppercase">Costco</h4>
-                                    <ul class="list-disc list-inside space-y-1 text-stone-700 marker:text-teal-400">
-                                        <li>Organic Tofu (4-pack)</li>
-                                        <li>Almond/Oat Milk</li>
-                                        <li>Hummus & Crackers</li>
-                                        <li>Fresh Berries/Pineapple</li>
-                                        <li>Veggie Burgers</li>
-                                        <li>Avocados (Bag)</li>
-                                        <li>Liquid IV / Water</li>
-                                        <li>Local Beer/Seltzer</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-orange-600 mb-2 text-xs uppercase">Local Markets</h4>
-                                    <ul class="list-disc list-inside space-y-1 text-stone-700 marker:text-orange-400">
-                                        <li>Poke (Tofu/Limu)</li>
-                                        <li>Papayas</li>
-                                        <li>Reef-safe Sunscreen</li>
-                                        <li>Macadamia Nuts</li>
-                                        <li>Coffee Beans</li>
-                                    </ul>
-                                </div>
+                            <h3 class="font-bold text-teal-700 mb-2 text-xs uppercase">Vegan List</h3>
+                            <div class="grid grid-cols-2 gap-4 text-sm text-stone-600">
+                                <ul class="list-disc list-inside">
+                                    <li>Organic Tofu</li>
+                                    <li>Oat Milk</li>
+                                    <li>Avocados</li>
+                                    <li>Hummus</li>
+                                </ul>
+                                <ul class="list-disc list-inside">
+                                    <li>Poke (Tofu)</li>
+                                    <li>Papayas</li>
+                                    <li>Local Coffee</li>
+                                    <li>Seltzer</li>
+                                </ul>
                             </div>
                         </div>
 
-                        <!-- Parking Content -->
-                        <div id="content-parking" class="hidden animate-fade-in-up">
-                            <h3 class="font-bold text-stone-800 mb-4 text-lg serif">Parking Intelligence</h3>
-                            <div class="space-y-4 text-sm">
-                                <div class="flex gap-3">
-                                    <div class="bg-purple-100 text-purple-600 p-2 rounded h-fit"><i data-lucide="building" class="w-4 h-4"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-stone-800">Waikiki (Royal Hawaiian)</h4>
-                                        <p class="text-stone-600">Park at Royal Hawaiian Ctr. Validated rate is cheapest. Buy a drink at the food court to validate.</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="bg-blue-100 text-blue-600 p-2 rounded h-fit"><i data-lucide="waves" class="w-4 h-4"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-stone-800">Shark's Cove</h4>
-                                        <p class="text-stone-600">Tiny lot. Arrive before 9:00 AM or park across the street near the food trucks (carefully).</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="bg-green-100 text-green-600 p-2 rounded h-fit"><i data-lucide="mountain" class="w-4 h-4"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-stone-800">Manoa Falls</h4>
-                                        <p class="text-stone-600">Official lot is ~$7 (credit card kiosk). Do not park in residential areas; high ticket risk.</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="bg-orange-100 text-orange-600 p-2 rounded h-fit"><i data-lucide="alert-circle" class="w-4 h-4"></i></div>
-                                    <div>
-                                        <h4 class="font-bold text-stone-800">General Advice</h4>
-                                        <p class="text-stone-600">Leave <strong>nothing</strong> visible in the Jeep. Leave doors unlocked if soft top (prevents slashing).</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="content-tips" class="hidden animate-fade-in-up">
+                             <div class="text-sm text-stone-600 space-y-2">
+                                 <p><strong>🔒 Security:</strong> Leave NOTHING in the Jeep. Windows down if soft top.</p>
+                                 <p><strong>🅿️ Parking:</strong> Waimea & Sharks Cove fill by 9am. Go early!</p>
+                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Day 1 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(0)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" 
-                             alt="Haleiwa" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Arrival & Haleiwa</div>
-                            <div class="text-xs opacity-90 font-light">Wed, Jan 21</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 1: Touchdown</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Logistics</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="plane" class="text-blue-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">12:30 PM: Car Pickup</h4>
-                                <p class="text-stone-600 text-sm">Avis @ HNL. Jeep is prepaid.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="shopping-cart" class="text-emerald-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">2:00 PM: Supplies Run</h4>
-                                <p class="text-stone-600 text-sm"><strong>Costco Waipio</strong> (see Grocery tab). Then <strong>Zippy's</strong> for late lunch.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">6:30 PM: Dinner @ Haleiwa Joe's</h4>
-                                <p class="text-stone-600 text-sm">No reservations taken—arrive early for sunset. <strong>Parking:</strong> Lot fills fast; park on street if needed.</p>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Haleiwa+Joes+Haleiwa" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 2 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(1)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" 
-                             alt="Ocean Adventure" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">North Shore Exploration</div>
-                            <div class="text-xs opacity-90 font-light">Thu, Jan 22</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 2: Sharks & Shave Ice</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Adventure</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="anchor" class="text-blue-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">7:00 AM: Arrive Harbor</h4>
-                                <p class="text-stone-600 text-sm">Tour starts 7:30 AM sharp. Haleiwa Small Boat Harbor. <strong>Parking:</strong> ample free parking at harbor.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="coffee" class="text-amber-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">12:00 PM: Post-Shark Fuel</h4>
-                                <p class="text-stone-600 text-sm"><strong>Tamura's Market</strong> for Tofu Poke. <strong>Matsumoto Shave Ice</strong> for dessert (line moves fast).</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="sunset" class="text-orange-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">5:15 PM: Ali'i Beach Park</h4>
-                                <p class="text-stone-600 text-sm">Sunset is ~6:10 PM. Bring chairs/towels.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 3 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(2)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" 
-                             alt="Manoa Falls" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Town Day & Culture</div>
-                            <div class="text-xs opacity-90 font-light">Fri, Jan 23</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 3: History & Hikes</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Culture</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="landmark" class="text-stone-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">9:30 AM: Bishop Museum</h4>
-                                <p class="text-stone-600 text-sm">Plan for 2-3 hours. Parking is \$5/car on campus.</p>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Bishop+Museum+Honolulu" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="mountain" class="text-green-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">2:00 PM: Manoa Falls</h4>
-                                <p class="text-stone-600 text-sm">Hike takes ~1.5 hrs. Park in paid lot ($7). Don't leave valuables in car!</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-red-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">6:00 PM: Side Street Inn</h4>
-                                <p class="text-stone-600 text-sm">Reservation needed. Valet parking only (usually ~$5-7).</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 4 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(3)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" 
-                             alt="Windward Coast" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Windward Coast</div>
-                            <div class="text-xs opacity-90 font-light">Sat, Jan 24</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 4: Sandbar & Views</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Scenic</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="waves" class="text-blue-400 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">9:00 AM: He'eia Kea Harbor</h4>
-                                <p class="text-stone-600 text-sm">Kaneohe Sandbar Charter. Arrive 30 mins early. Free parking at harbor.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="camera" class="text-purple-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">2:00 PM: Windward Cruising</h4>
-                                <p class="text-stone-600 text-sm">Lunch at <strong>Fresh Catch Kaneohe</strong>. Drive North past Kualoa Ranch. Stop at Kualoa Regional Park for photos.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 5 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(4)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" 
-                             alt="Pipeline Surf" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Shrimp & Dolphins</div>
-                            <div class="text-xs opacity-90 font-light">Sun, Jan 25</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 5: North Shore Mix</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Nature</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="fish" class="text-blue-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">7:00 AM: Dolphin Excursion</h4>
-                                <p class="text-stone-600 text-sm">Haleiwa Harbor. Early morning = calmest water.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="map-pin" class="text-orange-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">12:30 PM: Kahuku Lunch</h4>
-                                <p class="text-stone-600 text-sm"><strong>Raised by the Waves</strong> at Kahuku Sugar Mill. Vegan waffles/smoothies. Parking is dirt lot (free).</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="utensils" class="text-green-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">5:30 PM: Sunset Picnic</h4>
-                                <p class="text-stone-600 text-sm"><strong>Aweoweo Beach Park</strong> in Waialua. Very quiet local beach. Street parking available.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 6 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(5)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" 
-                             alt="Waikiki" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Waikiki Day Trip</div>
-                            <div class="text-xs opacity-90 font-light">Mon, Jan 26</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 6: City Vibes</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-2 py-1 rounded">Urban</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="building" class="text-purple-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">10:00 AM: Arrival & Park</h4>
-                                <p class="text-stone-600 text-sm">Park at <strong>Royal Hawaiian Center</strong>. Get validation at food court or shops (1st hr free, 2nd \$2).</p>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Royal+Hawaiian+Center" target="_blank" class="text-teal-600 text-sm font-bold flex items-center gap-1 mt-1 hover:underline">Get Directions <i data-lucide="external-link" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="glass-water" class="text-pink-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">5:00 PM: Evening Flow</h4>
-                                <p class="text-stone-600 text-sm">Drinks at Mai Tai Bar. Dinner at <strong>Moani's Waikiki</strong> (Intl Market Place - 3rd floor). Live music!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 7 -->
-                <div class="day-card group cursor-pointer transition-all duration-300 hover:shadow-lg bg-white rounded-xl overflow-hidden border border-stone-100" onclick="focusDay(6)">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" 
-                             alt="North Shore Coast" 
-                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                             loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-3 left-4 text-white">
-                            <div class="font-serif font-bold text-xl drop-shadow-md">Farewell</div>
-                            <div class="text-xs opacity-90 font-light">Wed, Jan 28</div>
-                        </div>
-                    </div>
-                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl serif font-bold text-teal-900">Day 7: Departure</h3>
-                        <span class="text-xs font-bold uppercase tracking-wider text-red-600 bg-red-100 px-2 py-1 rounded">Return 12:30 PM</span>
-                    </div>
-                    <div class="p-6 space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="sun" class="text-yellow-500 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">8:00 AM: Farm to Barn</h4>
-                                <p class="text-stone-600 text-sm">Final breakfast. Great coffee and open-air seating. <strong>Parking:</strong> Grass lot on site.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="car" class="text-stone-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">10:30 AM: Wheels Up</h4>
-                                <p class="text-stone-600 text-sm">Depart Waialua. Allow 50 mins for drive + gas refill near airport (Costco Iwilei has cheap gas if time permits).</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 border-t border-stone-100 pt-4">
-                            <div class="mt-1 flex-shrink-0"><i data-lucide="check-square" class="text-green-600 w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="font-bold text-stone-800">12:30 PM: Car Return @ HNL</h4>
-                                <p class="text-stone-600 text-sm">Return Jeep to Avis. Safe travels!</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- DYNAMIC DAY CARDS -->
+                <div id="itinerary-container" class="space-y-4">
+                    <!-- Cards will be injected by JS here -->
                 </div>
 
             </div>
 
             <!-- Right Column: Map -->
-            <div class="lg:sticky lg:top-8 h-[50vh] lg:h-[85vh] bg-white rounded-xl shadow-lg border border-stone-200 p-2 z-10">
+            <div class="lg:sticky lg:top-4 h-[60vh] lg:h-[90vh] bg-white rounded-xl shadow-lg border border-stone-200 p-2 z-10">
                 <div id="map"></div>
-                <div class="mt-2 text-center text-xs text-stone-500 italic">
-                    Click any card to fly to location.
+                <div class="mt-2 text-center text-xs text-stone-500 italic bg-white/80 p-1 rounded">
+                    Showing drive times from Uncle's House (Waialua)
                 </div>
             </div>
 
         </div>
     </main>
 
-    <footer class="bg-teal-900 text-white py-8 text-center mt-auto">
-        <p class="font-serif italic text-lg opacity-80">Made with ❤️ for You</p>
-        <p class="text-xs mt-2 text-teal-200 opacity-60">Confirmed: Jeep Wrangler</p>
-    </footer>
-
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
-        // Initialize Icons
+        // --- 1. CONFIGURATION & DATA ---
         lucide.createIcons();
 
-        // Tab Switching Logic
-        window.switchTab = function(tabName) {
-            // Hide all content
-            document.getElementById('content-budget').classList.add('hidden');
-            document.getElementById('content-grocery').classList.add('hidden');
-            document.getElementById('content-parking').classList.add('hidden');
-            
-            // Remove active style from all tabs
-            document.getElementById('tab-budget').classList.remove('tab-active', 'text-teal-700');
-            document.getElementById('tab-grocery').classList.remove('tab-active', 'text-teal-700');
-            document.getElementById('tab-parking').classList.remove('tab-active', 'text-teal-700');
+        const baseLocation = {
+            title: "Home Base (Uncle's)",
+            address: "67-313 Kaliuna St, Waialua",
+            lat: 21.5746, 
+            lng: -158.1344
+        };
 
-            // Show selected content & activate tab
-            document.getElementById('content-' + tabName).classList.remove('hidden');
-            document.getElementById('tab-' + tabName).classList.add('tab-active', 'text-teal-700');
-        }
-
-        // Data for Map
-        const locations = [
-            {
-                title: "Day 1: Avis Pickup & Dinner",
-                coords: [21.5878, -158.1035],
-                desc: "12:30 PM Pickup @ HNL -> Haleiwa Joe's"
-            },
-            {
-                title: "Day 2: Shark Tour",
-                coords: [21.5936, -158.1132],
-                desc: "Haleiwa Boat Harbor: Shark Tour"
-            },
-            {
-                title: "Day 3: Town & Culture",
-                coords: [21.3326, -157.8710],
-                desc: "Bishop Museum & Honolulu Exploration"
-            },
-            {
-                title: "Day 4: Windward Coast",
-                coords: [21.4430, -157.8105],
-                desc: "He'eia Kea Harbor: Sandbar Charter"
-            },
-            {
-                title: "Day 5: Sugar Mill & Surf",
-                coords: [21.6806, -157.9542],
-                desc: "Kahuku Sugar Mill & Pipeline"
-            },
-            {
-                title: "Day 6: Waikiki",
-                coords: [21.2792, -157.8294],
-                desc: "Royal Hawaiian Center & City Vibes"
-            },
-            {
-                title: "Day 7: HNL Departure",
-                coords: [21.3187, -157.9220],
-                desc: "12:30 PM Car Return @ Avis"
-            }
+        const days = [
+            { id: 0, date: "Wed, Jan 21", title: "Arrival", color: "#FF5722", img: "https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" },
+            { id: 1, date: "Thu, Jan 22", title: "Waimea & Sharks", color: "#4CAF50", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" },
+            { id: 2, date: "Fri, Jan 23", title: "Windward Side", color: "#9C27B0", img: "https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" },
+            { id: 3, date: "Sat, Jan 24", title: "Town & Waikiki", color: "#2196F3", img: "https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" },
+            { id: 4, date: "Sun, Jan 25", title: "North Shore Surf", color: "#FFC107", img: "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" },
+            { id: 5, date: "Mon, Jan 26", title: "Lanikai & Kailua", color: "#00BCD4", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop" },
+            { id: 6, date: "Tue, Jan 27", title: "Culture & Chill", color: "#795548", img: "https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" },
+            { id: 7, date: "Wed, Jan 28", title: "Departure", color: "#607D8B", img: "https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" }
         ];
 
-        // Init Map (Centered on Oahu)
-        const map = L.map('map').setView([21.47, -157.99], 10);
+        // Detailed Activities merged from map data
+        const activities = [
+            // Day 0: Arrival
+            { id: 1, dayIdx: 0, title: "Hale‘iwa Town", lat: 21.5907, lng: -158.1027, dist: "3.5 mi", time: "9 min", desc: "Dinner & strolling" },
+            { id: 2, dayIdx: 0, title: "Hale‘iwa Beach Park", lat: 21.5956, lng: -158.1121, dist: "4 mi", time: "11 min", desc: "Sunset views" },
 
+            // Day 1: Waimea
+            { id: 3, dayIdx: 1, title: "Waimea Valley", lat: 21.6375, lng: -158.0614, dist: "7.2 mi", time: "16 min", desc: "Botanical garden & waterfall" },
+            { id: 4, dayIdx: 1, title: "Shark’s Cove", lat: 21.6508, lng: -158.0624, dist: "8.3 mi", time: "19 min", desc: "Best snorkeling. Go early!" },
+            { id: 5, dayIdx: 1, title: "Three Tables Beach", lat: 21.6481, lng: -158.0640, dist: "8.0 mi", time: "18 min", desc: "Chill beach spot" },
+
+            // Day 2: Windward
+            { id: 6, dayIdx: 2, title: "Kualoa Regional Park", lat: 21.5134, lng: -157.8365, dist: "25 mi", time: "40 min", desc: "Photos of Chinaman's Hat" },
+            { id: 7, dayIdx: 2, title: "Byodo-In Temple", lat: 21.4312, lng: -157.8306, dist: "35 mi", time: "48 min", desc: "Valley of the Temples" },
+            { id: 8, dayIdx: 2, title: "Kahuku Food Trucks", lat: 21.6775, lng: -157.9547, dist: "16 mi", time: "30 min", desc: "Lunch spot!" },
+
+            // Day 3: Town/Waikiki
+            { id: 9, dayIdx: 3, title: "Diamond Head", lat: 21.2633, lng: -157.8042, dist: "38 mi", time: "55 min", desc: "Reservation required!" },
+            { id: 10, dayIdx: 3, title: "‘Iolani Palace", lat: 21.3069, lng: -157.8587, dist: "33 mi", time: "45 min", desc: "Downtown history" },
+            { id: 11, dayIdx: 3, title: "Waikiki Beach", lat: 21.2713, lng: -157.8228, dist: "37 mi", time: "50 min", desc: "Parking @ Royal Hawaiian" },
+
+            // Day 4: Surf
+            { id: 12, dayIdx: 4, title: "Banzai Pipeline", lat: 21.6644, lng: -158.0531, dist: "9.2 mi", time: "21 min", desc: "Watch the pros" },
+            { id: 13, dayIdx: 4, title: "Sunset Beach", lat: 21.6723, lng: -158.0436, dist: "10 mi", time: "23 min", desc: "Classic North Shore" },
+            { id: 14, dayIdx: 4, title: "Laniakea (Turtles)", lat: 21.6186, lng: -158.0858, dist: "5.5 mi", time: "14 min", desc: "Traffic is heavy here" },
+
+            // Day 5: Lanikai
+            { id: 15, dayIdx: 5, title: "Lanikai Pillbox", lat: 21.3962, lng: -157.7138, dist: "42 mi", time: "60 min", desc: "Amazing sunrise hike" },
+            { id: 16, dayIdx: 5, title: "Lanikai Beach", lat: 21.3934, lng: -157.7126, dist: "42 mi", time: "60 min", desc: "Powder soft sand" },
+            { id: 17, dayIdx: 5, title: "Ho‘omaluhia Garden", lat: 21.3857, lng: -157.7979, dist: "38 mi", time: "50 min", desc: "Epic mountain photos" },
+
+            // Day 6: Culture
+            { id: 18, dayIdx: 6, title: "Bishop Museum", lat: 21.3326, lng: -157.8708, dist: "30 mi", time: "40 min", desc: "Hawaiian Hall" },
+            { id: 19, dayIdx: 6, title: "Ka‘ena Point Trail", lat: 21.5760, lng: -158.2323, dist: "7 mi", time: "15 min", desc: "End of the road hike" },
+
+            // Day 7: Departure
+            { id: 20, dayIdx: 7, title: "HNL Airport", lat: 21.3187, lng: -157.9220, dist: "28 mi", time: "40 min", desc: "Aloha 'Oe" }
+        ];
+
+        // --- 2. INITIALIZE MAP ---
+        const map = L.map('map').setView([21.46, -158.0], 10);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
+            attribution: '&copy; OpenStreetMap &copy; CARTO',
+            maxZoom: 19
         }).addTo(map);
 
-        // Add markers
-        const markers = [];
-        locations.forEach((loc, index) => {
-            const marker = L.marker(loc.coords).addTo(map)
-                .bindPopup(`<b>${loc.title}</b><br>${loc.desc}`);
-            markers.push(marker);
+        // Home Marker
+        const homeIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div style="background-color: #333; width: 32px; height: 32px; border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 16px;">🏠</div>`,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
+        const homeMarker = L.marker([baseLocation.lat, baseLocation.lng], { icon: homeIcon }).addTo(map);
+        homeMarker.bindPopup(`
+            <div class="text-center p-2">
+                <div class="font-bold text-teal-800">${baseLocation.title}</div>
+                <div class="text-xs text-stone-500">${baseLocation.address}</div>
+                <div class="mt-2 text-xs italic text-pink-500">"Our little paradise"</div>
+            </div>
+        `);
+
+        // --- 3. BUILD UI & MARKERS ---
+        const container = document.getElementById('itinerary-container');
+        const mapMarkers = {};
+
+        days.forEach((day, index) => {
+            // Get activities for this day
+            const dayActs = activities.filter(a => a.dayIdx === index);
+            
+            // --- Map Pins for Day ---
+            dayActs.forEach(act => {
+                const iconHtml = `
+                    <div class="marker-pin" style="background-color: ${day.color}"></div>
+                    <div class="marker-number" style="transform: rotate(0deg); top: -8px; width: 30px; text-align: center;">${act.id}</div>
+                `;
+                const icon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: iconHtml,
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42],
+                    popupAnchor: [0, -35]
+                });
+                const marker = L.marker([act.lat, act.lng], { icon: icon }).addTo(map);
+                
+                // Fancy Popup
+                const popupContent = `
+                    <div class="p-1 font-sans">
+                        <h3 class="font-bold text-sm" style="color: ${day.color}">${act.id}. ${act.title}</h3>
+                        <p class="text-xs text-stone-600 mb-1">${act.desc}</p>
+                        <div class="bg-stone-100 p-1 rounded text-xs flex gap-2">
+                            <span>🚗 ${act.dist}</span>
+                            <span>⏱️ ${act.time}</span>
+                        </div>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+                mapMarkers[act.id] = marker;
+            });
+
+            // --- Day Card HTML ---
+            const card = document.createElement('div');
+            card.className = "day-card group bg-white rounded-xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-md transition-all duration-300";
+            card.id = `day-card-${index}`;
+            
+            // Build activity list HTML
+            let listHtml = '';
+            dayActs.forEach(act => {
+                listHtml += `
+                    <div class="flex items-start gap-3 p-2 hover:bg-stone-50 rounded-lg cursor-pointer transition-colors" onclick="zoomToActivity(${act.id})">
+                        <div class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white mt-0.5" style="background-color: ${day.color}">${act.id}</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-stone-800 text-sm">${act.title}</h4>
+                                <a href="https://www.google.com/maps/dir/?api=1&origin=${baseLocation.lat},${baseLocation.lng}&destination=${act.lat},${act.lng}" 
+                                   target="_blank" 
+                                   class="text-stone-400 hover:text-blue-600" 
+                                   title="Navigate from Base"
+                                   onclick="event.stopPropagation()">
+                                    <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
+                                </a>
+                            </div>
+                            <p class="text-xs text-stone-500">${act.desc}</p>
+                            <div class="flex gap-2 mt-1">
+                                <span class="text-[10px] bg-stone-100 px-1.5 py-0.5 rounded text-stone-600 font-medium">🚗 ${act.dist}</span>
+                                <span class="text-[10px] bg-stone-100 px-1.5 py-0.5 rounded text-stone-600 font-medium">⏱️ ${act.time}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="h-40 overflow-hidden relative cursor-pointer" onclick="focusDay(${index})">
+                    <img src="${day.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-3 left-4 text-white">
+                        <div class="font-serif font-bold text-xl drop-shadow-md">${day.title}</div>
+                        <div class="text-xs opacity-90 font-light">${day.date}</div>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-white/20 backdrop-blur-md p-1.5 rounded-lg border border-white/20 hover:bg-white/30 transition">
+                         <i data-lucide="map" class="text-white w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="p-3 space-y-1">
+                    ${listHtml}
+                </div>
+            `;
+            container.appendChild(card);
         });
 
-        // Function to focus on a specific day
-        window.focusDay = function(index) {
-            const loc = locations[index];
-            map.flyTo(loc.coords, 13, {
-                animate: true,
-                duration: 1.2
-            });
-            markers[index].openPopup();
-            
-            // Visual feedback on card selection
-            document.querySelectorAll('.day-card').forEach((card, i) => {
-                if(i === index) {
-                    card.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2');
-                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    card.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2');
-                }
-            });
-        }
+        // Initialize Lucide icons for new elements
+        lucide.createIcons();
 
-        /* ----------------------------------------------------------------
-           LOVE ANIMATION LOGIC 
-           Rocket -> Heart Explosion
-        ---------------------------------------------------------------- */
-        let canvas, ctx, canvasWidth, canvasHeight;
-        let rockets = [];
-        let particles = [];
-        let animationId;
+        // --- 4. INTERACTION LOGIC ---
+
+        window.focusDay = function(index) {
+            // Find bounds of all markers for this day
+            const dayActs = activities.filter(a => a.dayIdx === index);
+            if(dayActs.length === 0) return;
+
+            const group = L.featureGroup(dayActs.map(a => mapMarkers[a.id]));
+            map.flyToBounds(group.getBounds().pad(0.2), { duration: 1.5 });
+            
+            // Highlight card
+            document.querySelectorAll('.day-card').forEach((c, i) => {
+                if(i === index) c.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2');
+                else c.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2');
+            });
+        };
+
+        window.zoomToActivity = function(id) {
+            const marker = mapMarkers[id];
+            if(marker) {
+                map.flyTo(marker.getLatLng(), 14, { duration: 1.5 });
+                marker.openPopup();
+            }
+        };
+
+        window.switchTab = function(tabName) {
+            ['budget', 'grocery', 'tips'].forEach(t => {
+                document.getElementById('content-' + t).classList.add('hidden');
+                document.getElementById('tab-' + t).classList.remove('tab-active', 'text-teal-700');
+            });
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('tab-active', 'text-teal-700');
+        };
+
+        // --- 5. AUTOMATIC HIGHLIGHT (Saturday, Day 4) ---
+        // Since the prompt implies today is the weekend on the trip
+        setTimeout(() => {
+            const todayIndex = 3; // Saturday Jan 24 is index 3
+            focusDay(todayIndex);
+            
+            // Scroll sidebar to card
+            const card = document.getElementById(`day-card-${todayIndex}`);
+            if(card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 1000);
+
+        // --- 6. ANIMATION LOGIC ---
+        let canvas, ctx, canvasWidth, canvasHeight, rockets = [], particles = [], animationId;
 
         function initCanvas() {
             canvas = document.getElementById('loveCanvas');
@@ -676,149 +486,74 @@
 
         window.launchLove = function() {
             if (!canvas) initCanvas();
-            
-            // Launch a barrage of rockets!
-            // Fire 5 rockets with slight delay
             for(let i = 0; i < 5; i++) {
                 setTimeout(() => {
-                    // Randomize start X slightly
                     const startX = canvasWidth / 2 + (Math.random() * 200 - 100);
                     rockets.push(new Rocket(startX, canvasHeight));
                     if (!animationId) animate();
-                }, i * 200); // 200ms delay between shots
+                }, i * 200);
             }
         }
 
         class Rocket {
             constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.vy = -(12 + Math.random() * 4); // Random speed between -12 and -16
-                this.color = Math.random() > 0.5 ? '#ec4899' : '#f43f5e'; // Pink-500 or Rose-500
+                this.x = x; this.y = y;
+                this.vy = -(12 + Math.random() * 4);
+                this.color = Math.random() > 0.5 ? '#ec4899' : '#f43f5e';
                 this.exploded = false;
             }
-
             draw() {
-                // Glow effect
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = this.color;
-                
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Reset shadow
+                ctx.shadowBlur = 10; ctx.shadowColor = this.color;
+                ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI * 2); ctx.fill();
                 ctx.shadowBlur = 0;
-
-                // Simple Trail
-                ctx.fillStyle = 'rgba(236, 72, 153, 0.4)';
-                ctx.beginPath();
-                ctx.ellipse(this.x, this.y + 15, 2, 10, 0, 0, Math.PI * 2);
-                ctx.fill();
             }
-
             update() {
-                this.y += this.vy;
-                this.vy += 0.1; 
-                
-                // Explode higher up (top 30%)
+                this.y += this.vy; this.vy += 0.1;
                 if (this.y < canvasHeight * 0.3 || this.vy >= 0) {
-                    this.exploded = true;
-                    createHeart(this.x, this.y);
+                    this.exploded = true; createHeart(this.x, this.y);
                 }
             }
         }
 
         function createHeart(x, y) {
-            // Massive increase in particles
             const particleCount = 400; 
             for (let i = 0; i < particleCount; i++) {
                 const t = (Math.PI * 2 * i) / particleCount;
-                
-                // Bigger Heart Formula:
-                // Increase coefficients to make the heart physically larger on screen
-                // x = 30 * sin(t)^3
-                // y = 25 * ...
-                
                 const hx = 30 * Math.pow(Math.sin(t), 3);
                 const hy = -(26 * Math.cos(t) - 10 * Math.cos(2 * t) - 4 * Math.cos(3 * t) - 2 * Math.cos(4 * t));
-                
-                // Speed multiplier to make it explode outward vigorously
                 const speed = 0.2 + Math.random() * 0.3; 
-                
                 particles.push(new Particle(x, y, hx * speed, hy * speed));
             }
         }
 
         class Particle {
             constructor(x, y, vx, vy) {
-                this.x = x;
-                this.y = y;
-                this.vx = vx;
-                this.vy = vy;
-                this.life = 200; // Longer life
-                // Random warm colors
+                this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.life = 200;
                 const hue = Math.random() > 0.5 ? Math.random() * 20 + 340 : Math.random() * 30 + 10; 
                 this.color = `hsl(${hue}, 100%, 65%)`;
-                this.gravity = 0.05;
-                this.drag = 0.96;
+                this.gravity = 0.05; this.drag = 0.96;
             }
-
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                this.vy += this.gravity;
-                this.vx *= this.drag;
-                this.vy *= this.drag;
-                
+                this.x += this.vx; this.y += this.vy;
+                this.vy += this.gravity; this.vx *= this.drag; this.vy *= this.drag;
                 this.life -= 1;
             }
-
             draw() {
                 ctx.globalAlpha = Math.max(0, this.life / 200);
-                ctx.fillStyle = this.color;
-                
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
-                ctx.fill();
-                
+                ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); ctx.fill();
                 ctx.globalAlpha = 1;
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            
-            // Update Rockets
-            for (let i = rockets.length - 1; i >= 0; i--) {
-                const r = rockets[i];
-                r.update();
-                r.draw();
-                if (r.exploded) {
-                    rockets.splice(i, 1);
-                }
-            }
-            
-            // Update Particles
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.update();
-                p.draw();
-                if (p.life <= 0) {
-                    particles.splice(i, 1);
-                }
-            }
-            
-            if (rockets.length > 0 || particles.length > 0) {
-                animationId = requestAnimationFrame(animate);
-            } else {
-                animationId = null;
-                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            }
+            rockets = rockets.filter(r => { r.update(); r.draw(); return !r.exploded; });
+            particles = particles.filter(p => { p.update(); p.draw(); return p.life > 0; });
+            if (rockets.length > 0 || particles.length > 0) animationId = requestAnimationFrame(animate);
+            else { animationId = null; ctx.clearRect(0, 0, canvasWidth, canvasHeight); }
         }
-
     </script>
 </body>
 </html>
+
+
