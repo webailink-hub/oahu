@@ -3,557 +3,474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Oahu Itinerary for Andrew & Maryana. North Shore base, vegan-friendly, adventure packed.">
-    <title>Andrew & Maryana's Oahu Adventure</title>
-    
+    <title>M & A Schedule</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    
-    <!-- Lucide Icons -->
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: #fcfbf9;
-            color: #333;
+        body { font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        h1, h2, h3, .serif {
-            font-family: 'Playfair Display', serif;
+
+        .shift-enter {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-        #map {
-            height: 100%;
-            min-height: 500px;
-            width: 100%;
-            border-radius: 0.75rem;
-            z-index: 1;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        .tab-active {
-            border-bottom: 2px solid #0d9488;
-            color: #0f766e;
-            font-weight: 700;
-        }
-        #loveCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-        }
-        /* Map Marker Styles */
-        .marker-pin {
-            width: 30px;
-            height: 30px;
-            border-radius: 50% 50% 50% 0;
-            position: absolute;
-            transform: rotate(-45deg);
-            left: 50%;
-            top: 50%;
-            margin: -15px 0 0 -15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .marker-pin::after {
-            content: '';
-            width: 24px;
-            height: 24px;
-            margin: 3px 0 0 3px;
-            background: #fff;
-            position: absolute;
-            border-radius: 50%;
-        }
-        .marker-number {
-            position: absolute;
-            z-index: 10;
-            font-size: 11px;
-            font-weight: bold;
-            color: #333;
-            width: 30px;
-            text-align: center;
-            top: -5px; /* Adjust based on rotation */
-        }
-        .custom-div-icon {
-            background: transparent;
-            border: none;
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-20 selection:bg-rose-200">
 
-    <!-- Firework Canvas Overlay -->
-    <canvas id="loveCanvas"></canvas>
-
-    <!-- Hero Section -->
-    <header class="hero-bg h-[55vh] flex flex-col justify-center items-center text-center px-4 relative text-white">
-        <div class="max-w-3xl bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl animate-fade-in-up relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">We're Finally Here!</h1>
-            
-            <!-- Dashboard -->
-            <div class="grid grid-cols-4 gap-2 md:gap-4 mb-4 w-full max-w-md mx-auto">
-                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div class="text-xl md:text-3xl font-bold font-serif" id="currentDayDisplay">4</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Day</div>
-                </div>
-                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div class="text-xl md:text-3xl font-bold font-serif">82°</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Sunny</div>
-                </div>
-                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div class="text-xl md:text-3xl font-bold font-serif">100%</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Vibe</div>
-                </div>
-                <div class="bg-black/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/10">
-                    <div class="text-xl md:text-3xl font-bold font-serif">∞</div>
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest opacity-80">Love</div>
-                </div>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 glass-panel border-b border-slate-200 shadow-sm transition-all duration-300" id="header">
+        <div class="max-w-md mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-rose-500 to-sky-600 bg-clip-text text-transparent tracking-tight">
+                    Together
+                </h1>
+                <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Maryana & Andrew</p>
             </div>
-
-            <div class="space-y-2">
-                <p class="text-lg md:text-xl font-light italic leading-relaxed hidden md:block">
-                    "I am so happy to be here with you. You are my sunshine, and this week is going to be absolutely amazing."
-                </p>
-            </div>
-            
-            <!-- Surprise Button -->
-            <div class="mt-4">
-                <button onclick="launchLove()" class="group relative inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold text-white transition-all duration-200 bg-pink-500 rounded-full hover:bg-pink-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-600 shadow-lg animate-pulse hover:animate-none">
-                    <i data-lucide="heart" class="w-5 h-5 fill-white group-hover:scale-110 transition-transform"></i>
-                    <span>Click Me, Maryana!</span>
-                </button>
-            </div>
-
-            <div class="mt-4 pt-4 border-t border-white/30 text-xs md:text-sm font-light opacity-90 tracking-wide flex flex-wrap justify-center gap-2">
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Base: Waialua</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Jeep: Ready</span>
-                <span class="bg-teal-900/40 px-2 py-1 rounded">Sunscreen: Packed?</span>
+            <div class="flex items-center -space-x-2">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-rose-100 to-rose-200 border-2 border-white flex items-center justify-center text-rose-600 font-bold shadow-sm text-sm">M</div>
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-sky-100 to-sky-200 border-2 border-white flex items-center justify-center text-sky-600 font-bold shadow-sm text-sm">A</div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-2 md:px-4 py-6">
+    <main class="max-w-md mx-auto pt-24 px-4">
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
+        <!-- Stats Card -->
+        <div class="bg-white rounded-3xl p-5 shadow-lg shadow-slate-200/50 border border-slate-100 mb-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full -mr-8 -mt-8 opacity-50"></div>
+            <div class="absolute bottom-0 left-0 w-20 h-20 bg-sky-50 rounded-full -ml-8 -mb-8 opacity-50"></div>
             
-            <!-- Left Column: Itinerary & Logistics -->
-            <div class="space-y-6 overflow-y-auto max-h-[120vh] scrollbar-hide pr-1 pb-12">
-
-                <!-- TRIP HUB -->
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
-                    <div class="flex border-b border-stone-100">
-                        <button onclick="switchTab('budget')" id="tab-budget" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 tab-active transition-colors">
-                            <i data-lucide="dollar-sign" class="inline w-4 h-4 mb-1"></i> Budget
-                        </button>
-                        <button onclick="switchTab('grocery')" id="tab-grocery" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
-                            <i data-lucide="shopping-basket" class="inline w-4 h-4 mb-1"></i> Groceries
-                        </button>
-                        <button onclick="switchTab('tips')" id="tab-tips" class="flex-1 py-4 text-sm font-medium text-stone-500 hover:bg-stone-50 transition-colors">
-                            <i data-lucide="info" class="inline w-4 h-4 mb-1"></i> Tips
-                        </button>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <h2 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Upcoming Date Nights</h2>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl font-bold text-slate-800" id="shared-off-count">0</span>
+                        <span class="text-sm text-slate-400 font-medium">days together</span>
                     </div>
-
-                    <div class="p-6 bg-stone-50/50">
-                        <div id="content-budget" class="block animate-fade-in-up">
-                            <div class="flex justify-between items-center pb-2 border-b border-stone-200">
-                                <span class="text-stone-600 text-sm">Flights & Jeep (Paid)</span>
-                                <span class="font-bold text-green-700 text-sm">Done</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b border-stone-200">
-                                <span class="text-stone-600 text-sm">Est. Food & Fun</span>
-                                <span class="font-bold text-stone-800 text-sm">~$1,200</span>
-                            </div>
-                            <div class="flex justify-between items-center pt-2">
-                                <span class="text-stone-600 text-sm">Uncle's House</span>
-                                <span class="font-bold text-teal-700 text-sm">Free!</span>
-                            </div>
-                        </div>
-
-                        <div id="content-grocery" class="hidden animate-fade-in-up">
-                            <h3 class="font-bold text-teal-700 mb-2 text-xs uppercase">Vegan List</h3>
-                            <div class="grid grid-cols-2 gap-4 text-sm text-stone-600">
-                                <ul class="list-disc list-inside">
-                                    <li>Organic Tofu</li>
-                                    <li>Oat Milk</li>
-                                    <li>Avocados</li>
-                                    <li>Hummus</li>
-                                </ul>
-                                <ul class="list-disc list-inside">
-                                    <li>Poke (Tofu)</li>
-                                    <li>Papayas</li>
-                                    <li>Local Coffee</li>
-                                    <li>Seltzer</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div id="content-tips" class="hidden animate-fade-in-up">
-                             <div class="text-sm text-stone-600 space-y-2">
-                                 <p><strong>🔒 Security:</strong> Leave NOTHING in the Jeep. Windows down if soft top.</p>
-                                 <p><strong>🅿️ Parking:</strong> Waimea & Sharks Cove fill by 9am. Go early!</p>
-                             </div>
-                        </div>
-                    </div>
+                    <p class="text-xs text-slate-400 mt-1" id="month-label-stats">in February</p>
                 </div>
-
-                <!-- DYNAMIC DAY CARDS -->
-                <div id="itinerary-container" class="space-y-4">
-                    <!-- Cards will be injected by JS here -->
-                </div>
-
-            </div>
-
-            <!-- Right Column: Map -->
-            <div class="lg:sticky lg:top-4 h-[60vh] lg:h-[90vh] bg-white rounded-xl shadow-lg border border-stone-200 p-2 z-10">
-                <div id="map"></div>
-                <div class="mt-2 text-center text-xs text-stone-500 italic bg-white/80 p-1 rounded">
-                    Showing drive times from Uncle's House (Waialua)
+                <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center">
+                    <i data-lucide="heart" class="text-rose-500 fill-rose-500 w-6 h-6 animate-pulse"></i>
                 </div>
             </div>
-
         </div>
+
+        <!-- Controls -->
+        <div class="flex items-center justify-between mb-4 px-2">
+            <button onclick="changeMonth(-1)" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition shadow-sm">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <h2 class="text-lg font-bold text-slate-800 min-w-[140px] text-center" id="current-month-display">February 2026</h2>
+            <button onclick="changeMonth(1)" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition shadow-sm">
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Calendar -->
+        <div class="bg-white rounded-3xl p-4 shadow-xl shadow-slate-200/60 border border-slate-100 mb-8">
+            <!-- Days Header -->
+            <div class="grid grid-cols-7 mb-2">
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">S</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">M</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">T</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">W</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">T</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">F</div>
+                <div class="text-center text-[10px] font-bold text-slate-400 py-2">S</div>
+            </div>
+            
+            <!-- Grid -->
+            <div id="calendar-grid" class="grid grid-cols-7 gap-y-2 gap-x-1"></div>
+
+            <!-- Legend -->
+            <div class="mt-6 flex flex-wrap justify-center gap-4 border-t border-slate-100 pt-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                    <span class="text-xs font-medium text-slate-500">Maryana</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                    <span class="text-xs font-medium text-slate-500">Andrew</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                    <span class="text-xs font-medium text-slate-500">Pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Up -->
+        <div class="mb-20">
+            <h3 class="text-sm font-bold text-slate-800 mb-4 px-1 flex items-center gap-2">
+                <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i> Next 3 Days
+            </h3>
+            <div id="upcoming-list" class="space-y-3"></div>
+        </div>
+
     </main>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <script>
-        // --- 1. CONFIGURATION & DATA ---
-        lucide.createIcons();
-
-        const baseLocation = {
-            title: "Home Base (Uncle's)",
-            address: "67-313 Kaliuna St, Waialua",
-            lat: 21.5746, 
-            lng: -158.1344
-        };
-
-        const days = [
-            { id: 0, date: "Wed, Jan 21", title: "Arrival", color: "#FF5722", img: "https://images.unsplash.com/photo-1590176846633-882269a94462?q=80&w=2070&auto=format&fit=crop" },
-            { id: 1, date: "Thu, Jan 22", title: "Waimea & Sharks", color: "#4CAF50", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" },
-            { id: 2, date: "Fri, Jan 23", title: "Windward Side", color: "#9C27B0", img: "https://images.unsplash.com/photo-1614712724599-4d6cb46d97c7?q=80&w=2069&auto=format&fit=crop" },
-            { id: 3, date: "Sat, Jan 24", title: "Town & Waikiki", color: "#2196F3", img: "https://images.unsplash.com/photo-1509215424751-69631a31d977?q=80&w=2070&auto=format&fit=crop" },
-            { id: 4, date: "Sun, Jan 25", title: "North Shore Surf", color: "#FFC107", img: "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?q=80&w=2070&auto=format&fit=crop" },
-            { id: 5, date: "Mon, Jan 26", title: "Lanikai & Kailua", color: "#00BCD4", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop" },
-            { id: 6, date: "Tue, Jan 27", title: "Culture & Chill", color: "#795548", img: "https://images.unsplash.com/photo-1633512061266-993d395d363e?q=80&w=2070&auto=format&fit=crop" },
-            { id: 7, date: "Wed, Jan 28", title: "Departure", color: "#607D8B", img: "https://images.unsplash.com/photo-1614885822998-10b65c378e0e?q=80&w=2070&auto=format&fit=crop" }
-        ];
-
-        // Detailed Activities merged from map data
-        const activities = [
-            // Day 0: Arrival
-            { id: 1, dayIdx: 0, title: "Hale‘iwa Town", lat: 21.5907, lng: -158.1027, dist: "3.5 mi", time: "9 min", desc: "Dinner & strolling" },
-            { id: 2, dayIdx: 0, title: "Hale‘iwa Beach Park", lat: 21.5956, lng: -158.1121, dist: "4 mi", time: "11 min", desc: "Sunset views" },
-
-            // Day 1: Waimea
-            { id: 3, dayIdx: 1, title: "Waimea Valley", lat: 21.6375, lng: -158.0614, dist: "7.2 mi", time: "16 min", desc: "Botanical garden & waterfall" },
-            { id: 4, dayIdx: 1, title: "Shark’s Cove", lat: 21.6508, lng: -158.0624, dist: "8.3 mi", time: "19 min", desc: "Best snorkeling. Go early!" },
-            { id: 5, dayIdx: 1, title: "Three Tables Beach", lat: 21.6481, lng: -158.0640, dist: "8.0 mi", time: "18 min", desc: "Chill beach spot" },
-
-            // Day 2: Windward
-            { id: 6, dayIdx: 2, title: "Kualoa Regional Park", lat: 21.5134, lng: -157.8365, dist: "25 mi", time: "40 min", desc: "Photos of Chinaman's Hat" },
-            { id: 7, dayIdx: 2, title: "Byodo-In Temple", lat: 21.4312, lng: -157.8306, dist: "35 mi", time: "48 min", desc: "Valley of the Temples" },
-            { id: 8, dayIdx: 2, title: "Kahuku Food Trucks", lat: 21.6775, lng: -157.9547, dist: "16 mi", time: "30 min", desc: "Lunch spot!" },
-
-            // Day 3: Town/Waikiki
-            { id: 9, dayIdx: 3, title: "Diamond Head", lat: 21.2633, lng: -157.8042, dist: "38 mi", time: "55 min", desc: "Reservation required!" },
-            { id: 10, dayIdx: 3, title: "‘Iolani Palace", lat: 21.3069, lng: -157.8587, dist: "33 mi", time: "45 min", desc: "Downtown history" },
-            { id: 11, dayIdx: 3, title: "Waikiki Beach", lat: 21.2713, lng: -157.8228, dist: "37 mi", time: "50 min", desc: "Parking @ Royal Hawaiian" },
-
-            // Day 4: Surf
-            { id: 12, dayIdx: 4, title: "Banzai Pipeline", lat: 21.6644, lng: -158.0531, dist: "9.2 mi", time: "21 min", desc: "Watch the pros" },
-            { id: 13, dayIdx: 4, title: "Sunset Beach", lat: 21.6723, lng: -158.0436, dist: "10 mi", time: "23 min", desc: "Classic North Shore" },
-            { id: 14, dayIdx: 4, title: "Laniakea (Turtles)", lat: 21.6186, lng: -158.0858, dist: "5.5 mi", time: "14 min", desc: "Traffic is heavy here" },
-
-            // Day 5: Lanikai
-            { id: 15, dayIdx: 5, title: "Lanikai Pillbox", lat: 21.3962, lng: -157.7138, dist: "42 mi", time: "60 min", desc: "Amazing sunrise hike" },
-            { id: 16, dayIdx: 5, title: "Lanikai Beach", lat: 21.3934, lng: -157.7126, dist: "42 mi", time: "60 min", desc: "Powder soft sand" },
-            { id: 17, dayIdx: 5, title: "Ho‘omaluhia Garden", lat: 21.3857, lng: -157.7979, dist: "38 mi", time: "50 min", desc: "Epic mountain photos" },
-
-            // Day 6: Culture
-            { id: 18, dayIdx: 6, title: "Bishop Museum", lat: 21.3326, lng: -157.8708, dist: "30 mi", time: "40 min", desc: "Hawaiian Hall" },
-            { id: 19, dayIdx: 6, title: "Ka‘ena Point Trail", lat: 21.5760, lng: -158.2323, dist: "7 mi", time: "15 min", desc: "End of the road hike" },
-
-            // Day 7: Departure
-            { id: 20, dayIdx: 7, title: "HNL Airport", lat: 21.3187, lng: -157.9220, dist: "28 mi", time: "40 min", desc: "Aloha 'Oe" }
-        ];
-
-        // --- 2. INITIALIZE MAP ---
-        const map = L.map('map').setView([21.46, -158.0], 10);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap &copy; CARTO',
-            maxZoom: 19
-        }).addTo(map);
-
-        // Home Marker
-        const homeIcon = L.divIcon({
-            className: 'custom-div-icon',
-            html: `<div style="background-color: #333; width: 32px; height: 32px; border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 16px;">🏠</div>`,
-            iconSize: [32, 32],
-            iconAnchor: [16, 16]
-        });
-        const homeMarker = L.marker([baseLocation.lat, baseLocation.lng], { icon: homeIcon }).addTo(map);
-        homeMarker.bindPopup(`
-            <div class="text-center p-2">
-                <div class="font-bold text-teal-800">${baseLocation.title}</div>
-                <div class="text-xs text-stone-500">${baseLocation.address}</div>
-                <div class="mt-2 text-xs italic text-pink-500">"Our little paradise"</div>
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeModal()"></div>
+        
+        <!-- Content -->
+        <div class="absolute bottom-0 left-0 right-0 sm:top-1/2 sm:left-1/2 sm:bottom-auto sm:-translate-x-1/2 sm:-translate-y-1/2 w-full max-w-sm mx-auto bg-white rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl transform transition-transform translate-y-full sm:translate-y-10 scale-95" id="modal-content">
+            <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6 sm:hidden"></div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800" id="modal-date-title">Date</h3>
+                    <p class="text-xs text-slate-500 font-medium">Tap options to toggle status</p>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
             </div>
-        `);
 
-        // --- 3. BUILD UI & MARKERS ---
-        const container = document.getElementById('itinerary-container');
-        const mapMarkers = {};
+            <!-- Maryana Section -->
+            <div class="mb-6 p-4 rounded-2xl bg-rose-50/50 border border-rose-100">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold">M</div>
+                    <span class="text-sm font-bold text-rose-900">Maryana</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="updateShift('maryana', 'day')" id="btn-maryana-day" class="flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all">Work</button>
+                    <button onclick="updateShift('maryana', 'pending')" id="btn-maryana-pending" class="flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all">Pending</button>
+                </div>
+            </div>
 
-        days.forEach((day, index) => {
-            // Get activities for this day
-            const dayActs = activities.filter(a => a.dayIdx === index);
+            <!-- Andrew Section -->
+            <div class="mb-6 p-4 rounded-2xl bg-sky-50/50 border border-sky-100">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-6 h-6 rounded-full bg-sky-500 text-white flex items-center justify-center text-xs font-bold">A</div>
+                    <span class="text-sm font-bold text-sky-900">Andrew</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="updateShift('andrew', 'day')" id="btn-andrew-day" class="flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all">Work</button>
+                    <button onclick="updateShift('andrew', 'off_approved')" id="btn-andrew-off" class="flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all">Time Off</button>
+                </div>
+            </div>
+
+            <button onclick="closeModal()" class="w-full py-3.5 bg-slate-900 text-white rounded-xl font-bold shadow-lg shadow-slate-900/20 active:scale-[0.98] transition">
+                Save & Close
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data ---
+        // Pre-populating with data extracted from ALL images
+        const INITIAL_DATA = {
+            // February 2026
+            '2026-02-03': { maryana: 'day', andrew: 'day' },
+            '2026-02-04': { maryana: 'day', andrew: 'day' },
+            '2026-02-07': { maryana: 'day', andrew: 'day' },
+            '2026-02-08': { maryana: 'day', andrew: 'day' },
+            '2026-02-12': { maryana: null, andrew: 'off_approved' }, // Blue box Andrew
+            '2026-02-13': { maryana: 'day', andrew: 'day' },
+            '2026-02-14': { maryana: 'day', andrew: 'day' },
+            '2026-02-17': { maryana: 'day', andrew: 'day' },
+            '2026-02-18': { maryana: 'day', andrew: 'day' },
+            '2026-02-21': { maryana: 'day', andrew: 'day' },
+            '2026-02-22': { maryana: 'day', andrew: 'day' },
+            '2026-02-24': { maryana: 'day', andrew: 'day' },
+            '2026-02-25': { maryana: 'day', andrew: 'day' },
             
-            // --- Map Pins for Day ---
-            dayActs.forEach(act => {
-                const iconHtml = `
-                    <div class="marker-pin" style="background-color: ${day.color}"></div>
-                    <div class="marker-number" style="transform: rotate(0deg); top: -8px; width: 30px; text-align: center;">${act.id}</div>
-                `;
-                const icon = L.divIcon({
-                    className: 'custom-div-icon',
-                    html: iconHtml,
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42],
-                    popupAnchor: [0, -35]
-                });
-                const marker = L.marker([act.lat, act.lng], { icon: icon }).addTo(map);
+            // March 2026
+            '2026-03-05': { maryana: 'day', andrew: 'day' },
+            '2026-03-06': { maryana: 'day', andrew: 'day' },
+            '2026-03-07': { maryana: 'day', andrew: 'day' },
+            '2026-03-12': { maryana: 'pending', andrew: 'day' }, // Maryana Pending (Yellow), Andrew Work (Green)
+            '2026-03-13': { maryana: 'day', andrew: 'day' },
+            '2026-03-14': { maryana: null, andrew: 'day' }, // Andrew Green, Maryana blank
+        };
+
+        // Initialize state
+        let currentDate = new Date(2026, 1, 1); // Start Feb 2026
+        let shifts = JSON.parse(localStorage.getItem('ma_schedule')) || INITIAL_DATA;
+        let selectedDateKey = null;
+
+        // --- Logic ---
+
+        function saveShifts() {
+            localStorage.setItem('ma_schedule', JSON.stringify(shifts));
+            renderCalendar();
+            renderStats();
+            renderUpcoming();
+        }
+
+        function formatDateKey(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getDaysInMonth(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+            renderStats();
+            renderUpcoming();
+        }
+
+        function renderStats() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const daysInMonth = getDaysInMonth(year, month);
+            let freeTogetherCount = 0;
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(year, month, i);
+                const dayOfWeek = date.getDay();
+                // Weekend (0=Sun, 6=Sat) is preferred for dates, but let's count all free days
+                // Only counting if NEITHER works.
+                const key = formatDateKey(date);
+                const data = shifts[key] || {};
                 
-                // Fancy Popup
-                const popupContent = `
-                    <div class="p-1 font-sans">
-                        <h3 class="font-bold text-sm" style="color: ${day.color}">${act.id}. ${act.title}</h3>
-                        <p class="text-xs text-stone-600 mb-1">${act.desc}</p>
-                        <div class="bg-stone-100 p-1 rounded text-xs flex gap-2">
-                            <span>🚗 ${act.dist}</span>
-                            <span>⏱️ ${act.time}</span>
-                        </div>
-                    </div>
-                `;
-                marker.bindPopup(popupContent);
-                mapMarkers[act.id] = marker;
-            });
-
-            // --- Day Card HTML ---
-            const card = document.createElement('div');
-            card.className = "day-card group bg-white rounded-xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-md transition-all duration-300";
-            card.id = `day-card-${index}`;
-            
-            // Build activity list HTML
-            let listHtml = '';
-            dayActs.forEach(act => {
-                listHtml += `
-                    <div class="flex items-start gap-3 p-2 hover:bg-stone-50 rounded-lg cursor-pointer transition-colors" onclick="zoomToActivity(${act.id})">
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white mt-0.5" style="background-color: ${day.color}">${act.id}</div>
-                        <div class="flex-grow">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-bold text-stone-800 text-sm">${act.title}</h4>
-                                <a href="https://www.google.com/maps/dir/?api=1&origin=${baseLocation.lat},${baseLocation.lng}&destination=${act.lat},${act.lng}" 
-                                   target="_blank" 
-                                   class="text-stone-400 hover:text-blue-600" 
-                                   title="Navigate from Base"
-                                   onclick="event.stopPropagation()">
-                                    <i data-lucide="navigation" class="w-3.5 h-3.5"></i>
-                                </a>
-                            </div>
-                            <p class="text-xs text-stone-500">${act.desc}</p>
-                            <div class="flex gap-2 mt-1">
-                                <span class="text-[10px] bg-stone-100 px-1.5 py-0.5 rounded text-stone-600 font-medium">🚗 ${act.dist}</span>
-                                <span class="text-[10px] bg-stone-100 px-1.5 py-0.5 rounded text-stone-600 font-medium">⏱️ ${act.time}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            card.innerHTML = `
-                <div class="h-40 overflow-hidden relative cursor-pointer" onclick="focusDay(${index})">
-                    <img src="${day.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-3 left-4 text-white">
-                        <div class="font-serif font-bold text-xl drop-shadow-md">${day.title}</div>
-                        <div class="text-xs opacity-90 font-light">${day.date}</div>
-                    </div>
-                    <div class="absolute top-3 right-3 bg-white/20 backdrop-blur-md p-1.5 rounded-lg border border-white/20 hover:bg-white/30 transition">
-                         <i data-lucide="map" class="text-white w-4 h-4"></i>
-                    </div>
-                </div>
-                <div class="p-3 space-y-1">
-                    ${listHtml}
-                </div>
-            `;
-            container.appendChild(card);
-        });
-
-        // Initialize Lucide icons for new elements
-        lucide.createIcons();
-
-        // --- 4. INTERACTION LOGIC ---
-
-        window.focusDay = function(index) {
-            // Find bounds of all markers for this day
-            const dayActs = activities.filter(a => a.dayIdx === index);
-            if(dayActs.length === 0) return;
-
-            const group = L.featureGroup(dayActs.map(a => mapMarkers[a.id]));
-            map.flyToBounds(group.getBounds().pad(0.2), { duration: 1.5 });
-            
-            // Highlight card
-            document.querySelectorAll('.day-card').forEach((c, i) => {
-                if(i === index) c.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2');
-                else c.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2');
-            });
-        };
-
-        window.zoomToActivity = function(id) {
-            const marker = mapMarkers[id];
-            if(marker) {
-                map.flyTo(marker.getLatLng(), 14, { duration: 1.5 });
-                marker.openPopup();
-            }
-        };
-
-        window.switchTab = function(tabName) {
-            ['budget', 'grocery', 'tips'].forEach(t => {
-                document.getElementById('content-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('tab-active', 'text-teal-700');
-            });
-            document.getElementById('content-' + tabName).classList.remove('hidden');
-            document.getElementById('tab-' + tabName).classList.add('tab-active', 'text-teal-700');
-        };
-
-        // --- 5. AUTOMATIC HIGHLIGHT (Saturday, Day 4) ---
-        // Since the prompt implies today is the weekend on the trip
-        setTimeout(() => {
-            const todayIndex = 3; // Saturday Jan 24 is index 3
-            focusDay(todayIndex);
-            
-            // Scroll sidebar to card
-            const card = document.getElementById(`day-card-${todayIndex}`);
-            if(card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 1000);
-
-        // --- 6. ANIMATION LOGIC ---
-        let canvas, ctx, canvasWidth, canvasHeight, rockets = [], particles = [], animationId;
-
-        function initCanvas() {
-            canvas = document.getElementById('loveCanvas');
-            ctx = canvas.getContext('2d');
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-        }
-
-        function resizeCanvas() {
-            if(!canvas) return;
-            canvasWidth = canvas.width = window.innerWidth;
-            canvasHeight = canvas.height = window.innerHeight;
-        }
-
-        window.launchLove = function() {
-            if (!canvas) initCanvas();
-            for(let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const startX = canvasWidth / 2 + (Math.random() * 200 - 100);
-                    rockets.push(new Rocket(startX, canvasHeight));
-                    if (!animationId) animate();
-                }, i * 200);
-            }
-        }
-
-        class Rocket {
-            constructor(x, y) {
-                this.x = x; this.y = y;
-                this.vy = -(12 + Math.random() * 4);
-                this.color = Math.random() > 0.5 ? '#ec4899' : '#f43f5e';
-                this.exploded = false;
-            }
-            draw() {
-                ctx.shadowBlur = 10; ctx.shadowColor = this.color;
-                ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI * 2); ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-            update() {
-                this.y += this.vy; this.vy += 0.1;
-                if (this.y < canvasHeight * 0.3 || this.vy >= 0) {
-                    this.exploded = true; createHeart(this.x, this.y);
+                // Logic: If neither is working 'day' or 'night' or 'pending'.
+                // 'off_approved' counts as free.
+                const mBusy = data.maryana === 'day' || data.maryana === 'pending';
+                const aBusy = data.andrew === 'day' || data.andrew === 'night';
+                
+                if (!mBusy && !aBusy) {
+                    freeTogetherCount++;
                 }
             }
+            
+            // Animate number
+            const el = document.getElementById('shared-off-count');
+            el.innerText = freeTogetherCount;
+            document.getElementById('month-label-stats').innerText = `in ${currentDate.toLocaleString('default', { month: 'long' })}`;
         }
 
-        function createHeart(x, y) {
-            const particleCount = 400; 
-            for (let i = 0; i < particleCount; i++) {
-                const t = (Math.PI * 2 * i) / particleCount;
-                const hx = 30 * Math.pow(Math.sin(t), 3);
-                const hy = -(26 * Math.cos(t) - 10 * Math.cos(2 * t) - 4 * Math.cos(3 * t) - 2 * Math.cos(4 * t));
-                const speed = 0.2 + Math.random() * 0.3; 
-                particles.push(new Particle(x, y, hx * speed, hy * speed));
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            
+            document.getElementById('current-month-display').innerText = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const daysInMonth = getDaysInMonth(year, month);
+            const firstDayIndex = new Date(year, month, 1).getDay();
+
+            // Blanks
+            for (let i = 0; i < firstDayIndex; i++) {
+                const blank = document.createElement('div');
+                grid.appendChild(blank);
+            }
+
+            // Days
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(year, month, i);
+                const key = formatDateKey(date);
+                const data = shifts[key] || { maryana: null, andrew: null };
+                const isToday = new Date().toDateString() === date.toDateString();
+
+                const cell = document.createElement('div');
+                cell.className = `aspect-square relative rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col items-center justify-between pt-1 pb-1 overflow-hidden group hover:shadow-md hover:border-slate-300 ${isToday ? 'bg-blue-50/50 border-blue-200' : 'bg-white border-slate-100'}`;
+                cell.onclick = () => openModal(key);
+
+                // Date Number
+                const dateNum = document.createElement('span');
+                dateNum.className = `text-sm font-medium z-10 ${isToday ? 'text-blue-600 font-bold' : 'text-slate-700'}`;
+                dateNum.innerText = i;
+                cell.appendChild(dateNum);
+
+                // Visual Indicators Container
+                const indicators = document.createElement('div');
+                indicators.className = "w-full flex-1 flex items-end justify-between px-1 gap-1 pb-1";
+                
+                // Maryana Indicator (Left)
+                const mIndicator = document.createElement('div');
+                mIndicator.className = "flex-1 h-full max-h-[24px] rounded-lg flex items-center justify-center transition-colors";
+                if (data.maryana === 'day') {
+                    mIndicator.className += " bg-rose-500 shift-enter";
+                    mIndicator.innerHTML = '<span class="text-[10px] text-white font-bold">M</span>';
+                } else if (data.maryana === 'pending') {
+                    mIndicator.className += " bg-amber-400 shift-enter";
+                    mIndicator.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-amber-900"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+                } else {
+                     mIndicator.className += " bg-transparent group-hover:bg-rose-50";
+                }
+
+                // Andrew Indicator (Right)
+                const aIndicator = document.createElement('div');
+                aIndicator.className = "flex-1 h-full max-h-[24px] rounded-lg flex items-center justify-center transition-colors";
+                if (data.andrew === 'day' || data.andrew === 'night') {
+                    aIndicator.className += " bg-sky-500 shift-enter";
+                    aIndicator.innerHTML = '<span class="text-[10px] text-white font-bold">A</span>';
+                } else if (data.andrew === 'off_approved') {
+                    aIndicator.className += " bg-sky-100 shift-enter border border-sky-200";
+                     aIndicator.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-sky-600"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+                } else {
+                    aIndicator.className += " bg-transparent group-hover:bg-sky-50";
+                }
+
+                indicators.appendChild(mIndicator);
+                indicators.appendChild(aIndicator);
+                cell.appendChild(indicators);
+
+                grid.appendChild(cell);
             }
         }
 
-        class Particle {
-            constructor(x, y, vx, vy) {
-                this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.life = 200;
-                const hue = Math.random() > 0.5 ? Math.random() * 20 + 340 : Math.random() * 30 + 10; 
-                this.color = `hsl(${hue}, 100%, 65%)`;
-                this.gravity = 0.05; this.drag = 0.96;
+        function renderUpcoming() {
+            const list = document.getElementById('upcoming-list');
+            list.innerHTML = '';
+            
+            // Show next 3 days starting from current date context (or just simulated "today")
+            // Since data is in 2026, let's just show the first 3 days of the currently viewed month 
+            // OR if today is close to data, show real upcoming.
+            // For this demo, let's show the first 3 days of the CURRENT VIEWED month that have ANY activity.
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const daysInMonth = getDaysInMonth(year, month);
+            
+            let count = 0;
+            for(let i=1; i<=daysInMonth; i++) {
+                if(count >= 3) break;
+                
+                const date = new Date(year, month, i);
+                const key = formatDateKey(date);
+                const data = shifts[key];
+                
+                // Only show if something is happening or it's a weekend
+                if(data || date.getDay() === 0 || date.getDay() === 6) {
+                    count++;
+                    const row = document.createElement('div');
+                    row.className = "bg-white p-3 rounded-2xl border border-slate-100 shadow-sm flex items-center";
+                    
+                    const mStatus = data?.maryana;
+                    const aStatus = data?.andrew;
+                    const isFree = !mStatus && !aStatus; // Simplified free check
+
+                    let content = '';
+                    if (isFree) {
+                         content = `<div class="text-sm font-medium text-slate-400 flex items-center gap-2 italic"><i data-lucide="heart" class="w-3 h-3 text-rose-300 fill-rose-300"></i> Free together</div>`;
+                    } else {
+                        content = `<div class="flex flex-col gap-1 w-full">`;
+                        if(mStatus) content += `<div class="flex items-center gap-2 text-xs font-semibold ${mStatus === 'pending' ? 'text-amber-600' : 'text-rose-600'}"><span class="w-1.5 h-1.5 rounded-full ${mStatus === 'pending' ? 'bg-amber-500' : 'bg-rose-500'}"></span> Maryana: ${mStatus === 'pending' ? 'Pending' : 'Work'}</div>`;
+                        if(aStatus) content += `<div class="flex items-center gap-2 text-xs font-semibold ${aStatus === 'off_approved' ? 'text-sky-400' : 'text-sky-600'}"><span class="w-1.5 h-1.5 rounded-full ${aStatus === 'off_approved' ? 'bg-sky-300' : 'bg-sky-500'}"></span> Andrew: ${aStatus === 'off_approved' ? 'Time Off' : 'Work'}</div>`;
+                        content += `</div>`;
+                    }
+
+                    row.innerHTML = `
+                        <div class="w-12 text-center border-r border-slate-100 pr-3 mr-3">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">${date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                            <div class="text-lg font-bold text-slate-800 leading-none mt-1">${i}</div>
+                        </div>
+                        <div class="flex-1">
+                            ${content}
+                        </div>
+                    `;
+                    list.appendChild(row);
+                }
             }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                this.vy += this.gravity; this.vx *= this.drag; this.vy *= this.drag;
-                this.life -= 1;
+            lucide.createIcons();
+        }
+
+        // --- Modal Logic ---
+
+        const modal = document.getElementById('edit-modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(dateKey) {
+            selectedDateKey = dateKey;
+            const date = new Date(dateKey + 'T00:00:00');
+            document.getElementById('modal-date-title').innerText = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            
+            // Set button states
+            const data = shifts[dateKey] || {};
+            
+            updateBtnState('btn-maryana-day', data.maryana === 'day', 'bg-rose-500 text-white border-rose-600', 'bg-white text-slate-600 border-slate-200');
+            updateBtnState('btn-maryana-pending', data.maryana === 'pending', 'bg-amber-400 text-amber-900 border-amber-500', 'bg-white text-slate-600 border-slate-200');
+            
+            updateBtnState('btn-andrew-day', data.andrew === 'day', 'bg-sky-500 text-white border-sky-600', 'bg-white text-slate-600 border-slate-200');
+            updateBtnState('btn-andrew-off', data.andrew === 'off_approved', 'bg-sky-200 text-sky-800 border-sky-300', 'bg-white text-slate-600 border-slate-200');
+
+            // Show Modal
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalBackdrop.classList.remove('opacity-0');
+                modalContent.classList.remove('translate-y-full', 'scale-95', 'sm:translate-y-10');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.add('opacity-0');
+            modalContent.classList.add('translate-y-full', 'scale-95', 'sm:translate-y-10');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function updateBtnState(id, isActive, activeClass, inactiveClass) {
+            const btn = document.getElementById(id);
+            btn.className = `flex-1 py-2.5 rounded-xl text-xs font-semibold border transition-all ${isActive ? activeClass : inactiveClass}`;
+        }
+
+        function updateShift(person, type) {
+            const current = shifts[selectedDateKey] || {};
+            const newVal = current[person] === type ? null : type;
+            
+            shifts[selectedDateKey] = { ...current, [person]: newVal };
+            
+            // Clean up
+            if(!shifts[selectedDateKey].maryana && !shifts[selectedDateKey].andrew) {
+                delete shifts[selectedDateKey];
             }
-            draw() {
-                ctx.globalAlpha = Math.max(0, this.life / 200);
-                ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); ctx.fill();
-                ctx.globalAlpha = 1;
+            
+            saveShifts(); // This re-renders calendar behind modal
+            
+            // Update buttons immediately for feedback
+            const data = shifts[selectedDateKey] || {};
+            if(person === 'maryana') {
+                updateBtnState('btn-maryana-day', data.maryana === 'day', 'bg-rose-500 text-white border-rose-600', 'bg-white text-slate-600 border-slate-200');
+                updateBtnState('btn-maryana-pending', data.maryana === 'pending', 'bg-amber-400 text-amber-900 border-amber-500', 'bg-white text-slate-600 border-slate-200');
+            } else {
+                updateBtnState('btn-andrew-day', data.andrew === 'day', 'bg-sky-500 text-white border-sky-600', 'bg-white text-slate-600 border-slate-200');
+                updateBtnState('btn-andrew-off', data.andrew === 'off_approved', 'bg-sky-200 text-sky-800 border-sky-300', 'bg-white text-slate-600 border-slate-200');
             }
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            rockets = rockets.filter(r => { r.update(); r.draw(); return !r.exploded; });
-            particles = particles.filter(p => { p.update(); p.draw(); return p.life > 0; });
-            if (rockets.length > 0 || particles.length > 0) animationId = requestAnimationFrame(animate);
-            else { animationId = null; ctx.clearRect(0, 0, canvasWidth, canvasHeight); }
-        }
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+            renderStats();
+            renderUpcoming();
+            lucide.createIcons();
+        });
+
     </script>
 </body>
 </html>
-
-
