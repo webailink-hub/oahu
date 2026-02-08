@@ -63,7 +63,7 @@
             
             <div class="relative z-10 flex items-center justify-between">
                 <div>
-                    <h2 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Upcoming Date Nights</h2>
+                    <h2 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Shared Days Off</h2>
                     <div class="flex items-baseline gap-1">
                         <span class="text-3xl font-bold text-slate-800" id="shared-off-count">0</span>
                         <span class="text-sm text-slate-400 font-medium">days together</span>
@@ -71,7 +71,7 @@
                     <p class="text-xs text-slate-400 mt-1" id="month-label-stats">in February</p>
                 </div>
                 <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center">
-                    <i data-lucide="heart" class="text-rose-500 fill-rose-500 w-6 h-6 animate-pulse"></i>
+                    <i data-lucide="calendar-heart" class="text-rose-500 fill-rose-500 w-6 h-6 animate-pulse"></i>
                 </div>
             </div>
         </div>
@@ -107,15 +107,11 @@
             <div class="mt-6 flex flex-wrap justify-center gap-4 border-t border-slate-100 pt-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                    <span class="text-xs font-medium text-slate-500">Maryana</span>
+                    <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wide">Maryana (Work)</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-sky-500"></span>
-                    <span class="text-xs font-medium text-slate-500">Andrew</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                    <span class="text-xs font-medium text-slate-500">Pending</span>
+                    <span class="text-[10px] font-bold uppercase text-slate-500 tracking-wide">Andrew (Work)</span>
                 </div>
             </div>
         </div>
@@ -123,7 +119,7 @@
         <!-- Next Up -->
         <div class="mb-20">
             <h3 class="text-sm font-bold text-slate-800 mb-4 px-1 flex items-center gap-2">
-                <i data-lucide="calendar-clock" class="w-4 h-4 text-slate-400"></i> Next 3 Days
+                <i data-lucide="list-todo" class="w-4 h-4 text-slate-400"></i> Next 3 Days
             </h3>
             <div id="upcoming-list" class="space-y-3"></div>
         </div>
@@ -142,7 +138,7 @@
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h3 class="text-xl font-bold text-slate-800" id="modal-date-title">Date</h3>
-                    <p class="text-xs text-slate-500 font-medium">Tap options to toggle status</p>
+                    <p class="text-xs text-slate-500 font-medium">Tap options to toggle Work status</p>
                 </div>
                 <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
@@ -203,9 +199,9 @@
             '2026-03-05': { maryana: 'day', andrew: 'day' },
             '2026-03-06': { maryana: 'day', andrew: 'day' },
             '2026-03-07': { maryana: 'day', andrew: 'day' },
-            '2026-03-12': { maryana: 'pending', andrew: 'day' }, // Maryana Pending (Yellow), Andrew Work (Green)
+            '2026-03-12': { maryana: 'day', andrew: 'day' }, // UPDATED: Maryana Work, Andrew Work
             '2026-03-13': { maryana: 'day', andrew: 'day' },
-            '2026-03-14': { maryana: null, andrew: 'day' }, // Andrew Green, Maryana blank
+            '2026-03-14': { maryana: null, andrew: 'day' },
         };
 
         // Initialize state
@@ -249,8 +245,7 @@
             for (let i = 1; i <= daysInMonth; i++) {
                 const date = new Date(year, month, i);
                 const dayOfWeek = date.getDay();
-                // Weekend (0=Sun, 6=Sat) is preferred for dates, but let's count all free days
-                // Only counting if NEITHER works.
+                
                 const key = formatDateKey(date);
                 const data = shifts[key] || {};
                 
@@ -300,11 +295,9 @@
 
                 // Date Number
                 const dateNum = document.createElement('span');
-                dateNum.className = `text-sm font-medium z-10 ${isToday ? 'text-blue-600 font-bold' : 'text-slate-700'}`;
-                dateNum.innerText = i;
                 cell.appendChild(dateNum);
-
-                // Visual Indicators Container
+                
+                // Indicators Container
                 const indicators = document.createElement('div');
                 indicators.className = "w-full flex-1 flex items-end justify-between px-1 gap-1 pb-1";
                 
@@ -314,6 +307,7 @@
                 if (data.maryana === 'day') {
                     mIndicator.className += " bg-rose-500 shift-enter";
                     mIndicator.innerHTML = '<span class="text-[10px] text-white font-bold">M</span>';
+                    // If both working, visual tweak could go here, but side-by-side works well
                 } else if (data.maryana === 'pending') {
                     mIndicator.className += " bg-amber-400 shift-enter";
                     mIndicator.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-amber-900"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
@@ -334,6 +328,19 @@
                     aIndicator.className += " bg-transparent group-hover:bg-sky-50";
                 }
 
+                // Set Number Color/Style based on if it's a "Shared Day Off"
+                const mBusy = data.maryana === 'day' || data.maryana === 'pending';
+                const aBusy = data.andrew === 'day' || data.andrew === 'night';
+                const isSharedOff = !mBusy && !aBusy;
+
+                if (isToday) {
+                    dateNum.className = `text-sm font-bold z-10 text-blue-600`;
+                } else {
+                    dateNum.className = `text-sm font-medium z-10 ${isSharedOff ? 'text-slate-400' : 'text-slate-800'}`;
+                }
+                
+                dateNum.innerText = i;
+
                 indicators.appendChild(mIndicator);
                 indicators.appendChild(aIndicator);
                 cell.appendChild(indicators);
@@ -347,10 +354,6 @@
             list.innerHTML = '';
             
             // Show next 3 days starting from current date context (or just simulated "today")
-            // Since data is in 2026, let's just show the first 3 days of the currently viewed month 
-            // OR if today is close to data, show real upcoming.
-            // For this demo, let's show the first 3 days of the CURRENT VIEWED month that have ANY activity.
-            
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             const daysInMonth = getDaysInMonth(year, month);
@@ -371,11 +374,14 @@
                     
                     const mStatus = data?.maryana;
                     const aStatus = data?.andrew;
-                    const isFree = !mStatus && !aStatus; // Simplified free check
+                    // Treat 'pending' as busy/work context for now, though it's technically pending
+                    const mBusy = mStatus === 'day' || mStatus === 'pending';
+                    const aBusy = aStatus === 'day' || aStatus === 'night';
+                    const isFree = !mBusy && !aBusy; 
 
                     let content = '';
                     if (isFree) {
-                         content = `<div class="text-sm font-medium text-slate-400 flex items-center gap-2 italic"><i data-lucide="heart" class="w-3 h-3 text-rose-300 fill-rose-300"></i> Free together</div>`;
+                         content = `<div class="text-sm font-medium text-slate-400 flex items-center gap-2 italic"><i data-lucide="sparkles" class="w-3 h-3 text-amber-300 fill-amber-300"></i> Both Off</div>`;
                     } else {
                         content = `<div class="flex flex-col gap-1 w-full">`;
                         if(mStatus) content += `<div class="flex items-center gap-2 text-xs font-semibold ${mStatus === 'pending' ? 'text-amber-600' : 'text-rose-600'}"><span class="w-1.5 h-1.5 rounded-full ${mStatus === 'pending' ? 'bg-amber-500' : 'bg-rose-500'}"></span> Maryana: ${mStatus === 'pending' ? 'Pending' : 'Work'}</div>`;
@@ -474,3 +480,5 @@
     </script>
 </body>
 </html>
+
+
